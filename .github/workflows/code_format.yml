@@ -15,15 +15,15 @@ jobs:
       - name: Check for showstoppers
         run: >
           autopep8 --verbose --in-place --recursive --aggressive --aggressive
-          --ignore=W605 userge/plugins/ userge/utils userge/config.py
+          --ignore=W605 kannax/plugins/ kannax/utils kannax/config.py
       - name: Remove unused imports and variables
         run: >
           autoflake --in-place --recursive --remove-all-unused-imports
           --remove-unused-variables --ignore-init-module-imports .
       - name: lint with isort and black
         run: |
-          isort userge/plugins/ userge/utils/ userge/config.py
-          black userge/plugins/ userge/utils/ userge/config.py
+          isort kannax/plugins/ kannax/utils/ kannax/config.py
+          black kannax/plugins/ kannax/utils/ kannax/config.py
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "auto: code check"
