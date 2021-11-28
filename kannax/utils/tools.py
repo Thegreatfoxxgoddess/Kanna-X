@@ -14,8 +14,9 @@ from typing import List, Optional, Tuple
 from html_telegraph_poster import TelegraphPoster
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ujson import loads
-from kannax import Config
+
 import kannax
+from kannax import Config
 
 _LOG = kannax.logging.getLogger(__name__)
 
@@ -159,9 +160,12 @@ def safe_filename(path_):
         os.rename(path_, safename)
     return safename
 
+
 # dev list
+
+
 def is_dev(user_id: int) -> bool:
-    """ retorna se o usuario e dev """
+    """retorna se o usuario e dev"""
     return user_id in Config.DEV_USER
 
 

@@ -3,7 +3,6 @@
 
 
 """Gapps via inline bot"""
-import requests
 from bs4 import BeautifulSoup
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
@@ -15,7 +14,9 @@ from kannax import Config, Message, kannax
 
 
 @kannax.on_cmd(
-    "gapps", about={"header": "Obtenha gapps arm64 11 mais recente"}, allow_channels=False
+    "gapps",
+    about={"header": "Obtenha gapps arm64 11 mais recente"},
+    allow_channels=False,
 )
 async def gapps_inline(message: Message):
     await message.edit("`🔍 Procurando gapps...`")
@@ -124,9 +125,7 @@ if kannax.has_bot:
     async def nik_cb(_, callback_query: CallbackQuery):
         u_id = callback_query.from_user.id
         if u_id in Config.OWNER_ID or u_id in Config.SUDO_USERS:
-            link = (
-                "https://t.me/WeebGappsChannel"
-            )
+            link = "https://t.me/WeebGappsChannel"
             url = get(link)
             if url.status_code == 404:
                 return
@@ -150,9 +149,7 @@ if kannax.has_bot:
     async def nik_cb(_, callback_query: CallbackQuery):
         u_id = callback_query.from_user.id
         if u_id in Config.OWNER_ID or u_id in Config.SUDO_USERS:
-            link = (
-                "https://t.me/LitegappsDownload"
-            )
+            link = "https://t.me/LitegappsDownload"
             url = get(link)
             if url.status_code == 404:
                 return
@@ -182,7 +179,7 @@ if kannax.has_bot:
                     InlineKeyboardButton("Flame Gapps", callback_data="flame_gapps"),
                     InlineKeyboardButton("Weeb Gapps", callback_data="weeb_gapps"),
                 ],
-                [   
+                [
                     InlineKeyboardButton("Nik Gapps", callback_data="nik_gapps"),
                     InlineKeyboardButton("Bit Gapps", callback_data="bit_gapps"),
                 ],

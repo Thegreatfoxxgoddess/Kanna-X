@@ -25,7 +25,7 @@ from oauth2client.client import (
 )
 from pyrogram.errors import FloodWait
 
-from kannax import Config, Message, get_collection, pool, kannax
+from kannax import Config, Message, get_collection, kannax, pool
 from kannax.plugins.misc.download import tg_download, url_download
 from kannax.utils import humanbytes, time_formatter
 from kannax.utils.exceptions import ProcessCanceled

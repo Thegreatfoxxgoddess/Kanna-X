@@ -12,8 +12,8 @@ from pyrogram.errors import (
 )
 from spamwatch.types import Ban
 
-from kannax import Config, Message, filters, get_collection, pool, kannax
-from kannax.utils import get_response, mention_html, is_dev
+from kannax import Config, Message, filters, get_collection, kannax, pool
+from kannax.utils import get_response, is_dev, mention_html
 
 SAVED_SETTINGS = get_collection("CONFIGS")
 GBAN_USER_BASE = get_collection("GBAN_USER")
@@ -256,7 +256,9 @@ async def list_gbanned(message: Message):
             )
 
     await message.edit_or_send_as_file(
-        f"**--Lista de usuários banidos globalmente--**\n\n{msg}" if msg else "`glist vazia!`"
+        f"**--Lista de usuários banidos globalmente--**\n\n{msg}"
+        if msg
+        else "`glist vazia!`"
     )
     if bad_users:
         await CHANNEL.log(
@@ -371,7 +373,9 @@ async def list_white(message: Message):
         )
 
     await message.edit_or_send_as_file(
-        f"**--Lista de usuários permitidos--**\n\n{msg}" if msg else "`whitelist vazia!`"
+        f"**--Lista de usuários permitidos--**\n\n{msg}"
+        if msg
+        else "`whitelist vazia!`"
     )
 
 

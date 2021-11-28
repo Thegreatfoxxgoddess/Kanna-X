@@ -1,12 +1,12 @@
 """ setup AFK mode """
 
 import asyncio
-from kannax.utils.functions import rand_array
 import time
 from random import choice, randint
 
 from kannax import Config, Message, filters, get_collection, kannax
 from kannax.utils import time_formatter
+from kannax.utils.functions import rand_array
 
 CHANNEL = kannax.getCLogger(__name__)
 SAVED_SETTINGS = get_collection("CONFIGS")
@@ -27,8 +27,7 @@ async def _init() -> None:
         REASON = data["data"]
         TIME = data["time"] if "time" in data else 0
     async for _user in AFK_COLLECTION.find():
-        USERS.update(
-            {_user["_id"]: [_user["pcount"], _user["gcount"], _user["men"]]})
+        USERS.update({_user["_id"]: [_user["pcount"], _user["gcount"], _user["men"]]})
 
 
 @kannax.on_cmd(
@@ -51,7 +50,9 @@ async def active_afk(message: Message) -> None:
     await asyncio.gather(
         CHANNEL.log(f"Ficando ausente.\n <i>{REASON}</i>"),
         message.edit(
-            f"<a href={going_sleep}>\u200c</a>🥱 Ficando ausente, ate mais tarde.", del_in=0),
+            f"<a href={going_sleep}>\u200c</a>🥱 Ficando ausente, ate mais tarde.",
+            del_in=0,
+        ),
         AFK_COLLECTION.drop(),
         SAVED_SETTINGS.update_one(
             {"_id": "AFK"},
@@ -94,13 +95,11 @@ async def handle_afk_incomming(message: Message) -> None:
         if not (USERS[user_id][0] + USERS[user_id][1]) % randint(2, 4):
             if REASON:
                 out_str = (
-                    f"▸ Oi, estou ausente a {afk_time}.\n"
-                    f"▸ Motivo: <i>{REASON}</i>"
+                    f"▸ Oi, estou ausente a {afk_time}.\n" f"▸ Motivo: <i>{REASON}</i>"
                 )
             else:
                 out_str = choice(AFK_REASONS)
-            await message.reply_animation(animation=sleeping,
-                                          caption=out_str)
+            await message.reply_animation(animation=sleeping, caption=out_str)
         if chat.type == "private":
             USERS[user_id][0] += 1
         else:
@@ -108,14 +107,12 @@ async def handle_afk_incomming(message: Message) -> None:
     else:
         if REASON:
             out_str = (
-                f"▸ Oi, estou ausente a {afk_time}.\n"
-                f"▸ Motivo: <i>{REASON}</i>"
+                f"▸ Oi, estou ausente a {afk_time}.\n" f"▸ Motivo: <i>{REASON}</i>"
             )
         else:
             afkout = rand_array(AFK_REASONS)
             out_str = f"<i>{afkout}</i>"
-        await message.reply_animation(animation=sleeping,
-                                          caption=out_str)
+        await message.reply_animation(animation=sleeping, caption=out_str)
         if chat.type == "private":
             USERS[user_id] = [1, 0, user_dict["mention"]]
         else:
@@ -123,7 +120,8 @@ async def handle_afk_incomming(message: Message) -> None:
     if chat.type == "private":
         coro_list.append(
             CHANNEL.log(
-                f"#PRIVADO\n{user_dict['mention']} lhe enviou mensagens\n\n" f"Mensagem: <i>{message.text}</i>"
+                f"#PRIVADO\n{user_dict['mention']} lhe enviou mensagens\n\n"
+                f"Mensagem: <i>{message.text}</i>"
             )
         )
     else:
@@ -200,6 +198,7 @@ async def handle_afk_outgoing(message: Message) -> None:
         )
     )
     await asyncio.gather(*coro_list)
+
 
 AFK_SLEEPING = [
     "https://telegra.ph/file/ef265a6287049e9bf6824.gif",

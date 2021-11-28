@@ -39,16 +39,22 @@ ownersFilter = filters.user(list(Config.OWNER_ID))
 
 
 @kannax.on_cmd(
-    "bot_fwd", about={"header": "habilitar/desabilitar encaminhamento de mensagens"}, allow_channels=False
+    "bot_fwd",
+    about={"header": "habilitar/desabilitar encaminhamento de mensagens"},
+    allow_channels=False,
 )
 async def bot_fwd_(message: Message):
     """habilitar/desabilitar encaminhamento de mensagens"""
     if Config.BOT_FORWARDS:
         Config.BOT_FORWARDS = False
-        await message.edit("`desabilitar encaminhamento de mensagens !`", del_in=3, log=__name__)
+        await message.edit(
+            "`desabilitar encaminhamento de mensagens !`", del_in=3, log=__name__
+        )
     else:
         Config.BOT_FORWARDS = True
-        await message.edit("`habilitar encaminhamento de mensagens !`", del_in=3, log=__name__)
+        await message.edit(
+            "`habilitar encaminhamento de mensagens !`", del_in=3, log=__name__
+        )
     await SAVED_SETTINGS.update_one(
         {"_id": "BOT_FORWARDS"},
         {"$set": {"is_active": Config.BOT_FORWARDS}},
@@ -115,7 +121,8 @@ if kannax.has_bot:
                 await message.forward(user_id)
         except UserIsBlocked:
             await message.err(
-                "Você não pode responder a este usuário porque ele bloqueou seu bot !", del_in=5
+                "Você não pode responder a este usuário porque ele bloqueou seu bot !",
+                del_in=5,
             )
         except Exception as fwd_e:
             LOG.error(fwd_e)
@@ -253,9 +260,13 @@ if kannax.has_bot:
         reply = message.reply_to_message
         user_ = None
         if not reply:
-            await message.reply("Responda a uma mensagem para ver as informações do usuário")
+            await message.reply(
+                "Responda a uma mensagem para ver as informações do usuário"
+            )
             return
-        info_msg = await message.reply("`🔎 Procurando este usuário em meu banco de dados ...`")
+        info_msg = await message.reply(
+            "`🔎 Procurando este usuário em meu banco de dados ...`"
+        )
         if uid_from_db := BOT_MSGS.search(reply.message_id):
             try:
                 user_ = await kannax.bot.get_user_dict(uid_from_db, attr_dict=True)
@@ -266,7 +277,8 @@ if kannax.has_bot:
 
         if not user_:
             return await message.edit(
-                "**ERROR:** `Desculpe! Não consigo encontrar este usuário em meu banco de dados :(`", del_in=3
+                "**ERROR:** `Desculpe! Não consigo encontrar este usuário em meu banco de dados :(`",
+                del_in=3,
             )
         uinfo = (
             "**#User_Info**"
@@ -330,7 +342,9 @@ async def list_bot_banned(message: Message):
         )
 
     await message.edit_or_send_as_file(
-        f"**--Lista de usuários banidos do bot--**\n\n{msg}" if msg else "`bblist vazia!`"
+        f"**--Lista de usuários banidos do bot--**\n\n{msg}"
+        if msg
+        else "`bblist vazia!`"
     )
 
 
@@ -359,7 +373,9 @@ async def ungban_user(message: Message):
         if user_id.isdigit():
             user_id = int(user_id)
         else:
-            await message.err("Usuário desconhecido!, Forneça uma ID de usuário para pesquisar.")
+            await message.err(
+                "Usuário desconhecido!, Forneça uma ID de usuário para pesquisar."
+            )
             return
     else:
         firstname = get_mem["fname"]

@@ -3,13 +3,13 @@
 # All rights reserved.
 
 import asyncio
-import os
-import random
-import re
-import requests
-import wget
 import datetime
 import math
+import os
+import random
+
+import requests
+import wget
 from cowpy import cow
 
 from kannax import Message, kannax
@@ -51,7 +51,6 @@ async def progresss(message):
     await message.edit(message_out)
 
 
-
 @kannax.on_cmd("fds", about={"header": "fodase?"})
 async def fds_(message: Message):
     out_str = f"""
@@ -66,13 +65,15 @@ F
 　°
 　•
 　 .
-　　.   
+　　.
            da-se?
     """
     await message.edit(out_str)
 
 
-@kannax.on_cmd("(rt|Rt,)", about={"header": "rt message"}, trigger="", allow_via_bot=False)
+@kannax.on_cmd(
+    "(rt|Rt,)", about={"header": "rt message"}, trigger="", allow_via_bot=False
+)
 async def rt_(message: Message):
     """rt mensagem"""
     retweet = message.reply_to_message
@@ -83,8 +84,9 @@ async def rt_(message: Message):
         usr_me = user_me["fname"]
         mensg = f"🔃 **{usr_me}** retweetou:\n\n👤 **{user_}**: __{rt_msg}__"
         await message.edit(mensg)
-    except:
+    except BaseException:
         pass
+
 
 @kannax.on_cmd("f", about={"header": "f"})
 async def f_(message: Message):
@@ -248,7 +250,9 @@ async def loll(message: Message):
     await message.edit(out_str)
 
 
-@kannax.on_cmd("(k|K)$", about={"header": "KKKKKKKKKKKKKKKKKKKK"}, trigger="", allow_via_bot=False)
+@kannax.on_cmd(
+    "(k|K)$", about={"header": "KKKKKKKKKKKKKKKKKKKK"}, trigger="", allow_via_bot=False
+)
 async def kkk_(message: Message):
     """KK"""
     K = "K "
@@ -298,9 +302,13 @@ async def check_and_send(message: Message, *args, **kwargs):
         await message.edit(*args, **kwargs)
 
 
-@kannax.on_cmd(r"(?:Kek|:/)$",
-               about={'header': "Check yourself, hint: :/"}, name='Kek',
-               trigger='', allow_via_bot=False)
+@kannax.on_cmd(
+    r"(?:Kek|:/)$",
+    about={"header": "Check yourself, hint: :/"},
+    name="Kek",
+    trigger="",
+    allow_via_bot=False,
+)
 async def kek_(message: Message):
     """kek"""
     kek = ["/", "\\"]
@@ -310,8 +318,7 @@ async def kek_(message: Message):
 
 @kannax.on_cmd(
     "clap",
-    about={"header": "Praise people!",
-           "usage": "{tr}clap [input | reply to msg]"},
+    about={"header": "Praise people!", "usage": "{tr}clap [input | reply to msg]"},
 )
 async def clap_(message: Message):
     """clap"""
@@ -350,8 +357,7 @@ async def cowsay_(message: Message):
 
 @kannax.on_cmd(
     "coinflip",
-    about={"header": "Flip a coin !!",
-           "usage": "{tr}coinflip [heads | tails]"},
+    about={"header": "Flip a coin !!", "usage": "{tr}coinflip [heads | tails]"},
 )
 async def coin_(message: Message):
     """coin"""

@@ -15,7 +15,9 @@ from kannax import Message, kannax
 async def getids(message: Message):
     msg = message.reply_to_message or message.extract_user_and_text
     out_str = f"👥 **ID do chat** : `{(msg.forward_from_chat or msg.chat).id}`\n"
-    out_str += f"💬 **ID da mensagem** : `{msg.forward_from_message_id or msg.message_id}`\n"
+    out_str += (
+        f"💬 **ID da mensagem** : `{msg.forward_from_message_id or msg.message_id}`\n"
+    )
     if msg.from_user:
         out_str += f"🙋‍♂️ **ID do usuário** : `{msg.from_user.id}`\n"
     file_id = None

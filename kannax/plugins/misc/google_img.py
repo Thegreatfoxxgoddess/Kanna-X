@@ -16,7 +16,7 @@ from google_images_download.google_images_download import googleimagesdownload
 from pyrogram.errors import FloodWait
 from pyrogram.types import InputMediaDocument, InputMediaPhoto
 
-from kannax import Config, Message, pool, kannax
+from kannax import Config, Message, kannax, pool
 from kannax.utils import sublists
 
 from .upload import doc_upload, photo_upload

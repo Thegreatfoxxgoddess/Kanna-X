@@ -96,7 +96,9 @@ async def set_flood(msg: Message):
             msg.chat.id in ANTIFLOOD_DATA
             and ANTIFLOOD_DATA[msg.chat.id].get("data") == "off"
         ):
-            return await msg.err("Primeiro ligue o ANTIFLOOD e, em seguida, defina o Limite.")
+            return await msg.err(
+                "Primeiro ligue o ANTIFLOOD e, em seguida, defina o Limite."
+            )
         input_ = int(args)
         if input_ < 3:
             await msg.err("Não é possível definir o Limite Antiflood inferior a 3")
@@ -151,7 +153,10 @@ async def set_mode(msg: Message):
 
 @kannax.on_cmd(
     "vflood",
-    about={"header": "Ver as configurações atuais de anti-flood", "usage": "{tr}vflood"},
+    about={
+        "header": "Ver as configurações atuais de anti-flood",
+        "usage": "{tr}vflood",
+    },
     allow_private=False,
 )
 async def view_flood_settings(msg: Message):

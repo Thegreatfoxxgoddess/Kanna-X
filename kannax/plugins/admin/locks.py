@@ -132,14 +132,17 @@ async def lock_perm(message: Message):
     if lock_type == "all":
         try:
             await message.client.set_chat_permissions(chat_id, ChatPermissions())
-            await message.edit("**🔒 Todas as permissões deste bate-papo foram bloqueadas!**", del_in=5)
+            await message.edit(
+                "**🔒 Todas as permissões deste bate-papo foram bloqueadas!**", del_in=5
+            )
             await CHANNEL.log(
                 f"#LOCK\n\nCHAT: `{message.chat.title}` (`{chat_id}`)\n"
                 f"PERMISSIONS: `Todas Permissões`"
             )
         except Exception as e_f:
             await message.edit(
-                r"`eu não tenho permissão para fazer isso ＞︿＜`\n\n" f"**ERROR:** `{e_f}`",
+                r"`eu não tenho permissão para fazer isso ＞︿＜`\n\n"
+                f"**ERROR:** `{e_f}`",
                 del_in=5,
             )
         return
@@ -241,7 +244,8 @@ async def unlock_perm(message: Message):
                 ),
             )
             await message.edit(
-                "**🔓 Todas as permissões deste bate-papo foram desbloqueadas!**", del_in=5
+                "**🔓 Todas as permissões deste bate-papo foram desbloqueadas!**",
+                del_in=5,
             )
             await CHANNEL.log(
                 f"#UNLOCK\n\nCHAT: `{message.chat.title}` (`{chat_id}`)\n"
@@ -249,7 +253,8 @@ async def unlock_perm(message: Message):
             )
         except Exception as e_f:
             await message.edit(
-                r"`eu não tenho permissão para fazer isso ＞︿＜`\n\n" f"**ERROR:** `{e_f}`",
+                r"`eu não tenho permissão para fazer isso ＞︿＜`\n\n"
+                f"**ERROR:** `{e_f}`",
                 del_in=5,
             )
         return

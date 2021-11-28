@@ -33,4 +33,3 @@ async def pingme(message: Message):
         end = datetime.now()
         m_s = (end - start).microseconds / 1000
         await message.edit(f"ᴘɪɴɢ - `{m_s} ᴍs`\nᴜᴘᴛɪᴍᴇ - `{kannax.uptime}`")
-

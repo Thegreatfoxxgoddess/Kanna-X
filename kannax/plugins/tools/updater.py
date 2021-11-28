@@ -5,7 +5,7 @@ from time import time
 from git import Repo
 from git.exc import GitCommandError
 
-from kannax import Config, Message, get_collection, pool, kannax
+from kannax import Config, Message, get_collection, kannax, pool
 from kannax.utils import runcmd
 
 LOG = kannax.getLogger(__name__)
@@ -91,9 +91,7 @@ async def check_update(message: Message):
             return
     if not (pull_from_repo or push_to_heroku):
         if out:
-            change_log = (
-                f"**Novas atualizações encontradas para KannaX\nDigite `{Config.CMD_TRIGGER}update -pull` para atualizar\n\n✨ ALTERAÇÕES**\n\n"
-            )
+            change_log = f"**Novas atualizações encontradas para KannaX\nDigite `{Config.CMD_TRIGGER}update -pull` para atualizar\n\n✨ ALTERAÇÕES**\n\n"
             await message.edit_or_send_as_file(
                 change_log + out, disable_web_page_preview=True
             )
@@ -102,15 +100,14 @@ async def check_update(message: Message):
         return
     if pull_from_repo:
         if out:
-            await message.edit(f"`Novas atualizações encontradas para KannaX, Atualizando...`")
-            await _pull_from_repo(repo, branch)
-            await CHANNEL.log(
-                f"**Atualização concluida.\n\n✨ ALTERAÇÕES**\n\n{out}"
+            await message.edit(
+                f"`Novas atualizações encontradas para KannaX, Atualizando...`"
             )
+            await _pull_from_repo(repo, branch)
+            await CHANNEL.log(f"**Atualização concluida.\n\n✨ ALTERAÇÕES**\n\n{out}")
             if not push_to_heroku:
                 await message.edit(
-                    "**KannaX foi atualizado!**\n"
-                    "`Reiniciando... Aguarde um pouco!`",
+                    "**KannaX foi atualizado!**\n" "`Reiniciando... Aguarde um pouco!`",
                 )
                 asyncio.get_event_loop().create_task(kannax.restart(True))
         elif push_to_heroku:

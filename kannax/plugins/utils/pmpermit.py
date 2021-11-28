@@ -5,12 +5,12 @@
 # Editado por fnixdev
 
 import asyncio
-from typing import Dict
-from telegraph import upload_file
 import random
+from typing import Dict
+
+from telegraph import upload_file
 
 from kannax import Config, Message, filters, get_collection, kannax
-from kannax.utils import SafeDict
 from kannax.utils.extras import reported_user_image
 
 CHANNEL = kannax.getCLogger(__name__)
@@ -45,14 +45,14 @@ async def _init() -> None:
         blocked_message = _blockPmMsg.get("data")
     _pmMedia = await SAVED_SETTINGS.find_one({"_id": "PM_MEDIA"})
     if _pmMedia:
-      pm_media = _pmMedia.get("data")
+        _pmMedia.get("data")
 
 
 @kannax.on_cmd(
     "(a|approve)$",
     about={
         "header": "Permite alguem a enviar mensagens no privado",
-        "usage": "{tr}a [username | userID]\nresponda {tr}a a uma mensagem"
+        "usage": "{tr}a [username | userID]\nresponda {tr}a a uma mensagem",
     },
     allow_channels=False,
     allow_via_bot=False,
@@ -152,7 +152,7 @@ async def ani_save_pm_media(message: Message):
         await message.edit("`Pm Media definida com sucesso!`")
     elif query:
         await SAVED_SETTINGS.update_one(
-                        {"_id": "PM_MEDIA"}, {"$set": {"data": query}}, upsert=True
+            {"_id": "PM_MEDIA"}, {"$set": {"data": query}}, upsert=True
         )
         await message.edit("`Pm Media definida com sucesso!`")
     else:
@@ -164,7 +164,7 @@ async def ani_save_pm_media(message: Message):
     about={
         "header": "Delete animation",
         "description": "Voçê pode voltar para a animação padrão com esse comando",
-      },
+    },
     allow_channels=False,
 )
 async def ani_del_pm_media(message: Message):
@@ -181,7 +181,7 @@ async def ani_del_pm_media(message: Message):
     about={
         "header": "Ativa e Desativa pmpermit",
         "description": "Isso vem desativado por padrão."
-        "Voçê pode Ativar e Desativar o pmpermit com esse comando."
+        "Voçê pode Ativar e Desativar o pmpermit com esse comando.",
     },
     allow_channels=False,
 )
@@ -342,7 +342,9 @@ async def uninvitedPmHandler(message: Message):
             )
         ).message_id
         await asyncio.sleep(1)
-        await CHANNEL.log(f"#NOVA_MENSAGEM\n{user_dict['mention']} enviou uma mensagem para você")
+        await CHANNEL.log(
+            f"#NOVA_MENSAGEM\n{user_dict['mention']} enviou uma mensagem para você"
+        )
 
 
 async def get_media() -> str:
@@ -350,7 +352,7 @@ async def get_media() -> str:
     if _pmfindmedia is None:
         return random.choice(PMGIF)
     return _pmfindmedia["data"]
-    
+
 
 @kannax.on_filters(
     ~allowAllFilter & filters.outgoing & filters.private & ~Config.ALLOWED_CHATS,
@@ -367,6 +369,7 @@ async def outgoing_auto_approve(message: Message):
     )
     user_dict = await kannax.get_user_dict(userID)
     await CHANNEL.log(f"**#AUTO_APROVADO**\n{user_dict['mention']}")
+
 
 PMGIF = [
     "https://telegra.ph/file/f244bfdd2dc40dbb266a0.gif",

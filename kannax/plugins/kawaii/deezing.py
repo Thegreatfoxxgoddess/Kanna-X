@@ -48,6 +48,7 @@ async def deezing_(message: Message):
         )
     except BaseException:
         await message.err(
-            "Algo inesperado aconteceu, por favor tente novamente mais tarde...", del_in=5
+            "Algo inesperado aconteceu, por favor tente novamente mais tarde...",
+            del_in=5,
         )
         return

@@ -18,7 +18,7 @@ from pyrogram.types import (
     User,
 )
 
-from kannax import Config, Message, get_collection, pool, kannax
+from kannax import Config, Message, get_collection, kannax, pool
 from kannax.utils import check_owner, get_file_id
 
 from .bot_forwards import ban_from_bot_pm
@@ -166,14 +166,18 @@ if kannax.has_bot:
     def default_owner_start(from_user):
         start_msg = f"ᴏɪ ᴍᴇsᴛʀᴇ 🥰!\nᴄᴏᴍᴏ ᴘᴏssᴏ ʟʜᴇ sᴇʀ ᴜᴛɪʟ ʜᴏᴊᴇ?"
         btns = [
-            [InlineKeyboardButton("➕ ᴀᴅɪᴄɪᴏɴᴀʀ ᴀ ᴜᴍ ɢʀᴜᴘᴏ", callback_data="add_to_grp")],
+            [
+                InlineKeyboardButton(
+                    "➕ ᴀᴅɪᴄɪᴏɴᴀʀ ᴀ ᴜᴍ ɢʀᴜᴘᴏ", callback_data="add_to_grp"
+                )
+            ],
         ]
         return start_msg, btns
 
     @kannax.bot.on_message(start_filter())
     async def start_bot(_, message: Message):
         c_info = await get_bot_info()
-        bot_ = c_info.get("bot")
+        c_info.get("bot")
         owner_ = c_info.get("owner")
         from_user = await kannax.bot.get_user_dict(message.from_user, attr_dict=True)
         if from_user.id in Config.OWNER_ID:

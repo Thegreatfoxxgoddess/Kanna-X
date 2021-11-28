@@ -1,7 +1,6 @@
 """ gerencie seu grupo """
 
 import asyncio
-import os
 import time
 
 from pyrogram.errors import (
@@ -11,12 +10,11 @@ from pyrogram.errors import (
     UserIdInvalid,
     UsernameInvalid,
 )
-from pyrogram.methods.chats import delete_channel
 from pyrogram.types import ChatPermissions
 
 from kannax import Config, Message, kannax
-from kannax.utils.functions import get_emoji_regex
 from kannax.utils import is_dev
+from kannax.utils.functions import get_emoji_regex
 
 CHANNEL = kannax.getCLogger(__name__)
 
@@ -74,13 +72,20 @@ async def promote_usr(message: Message):
             f"CHAT: `{message.chat.title}` (`{chat_id}`)"
         )
     except UsernameInvalid:
-        await message.edit("`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except PeerIdInvalid:
         await message.edit(
-            "`nome de usuário ou ID de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+            "`nome de usuário ou ID de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
         )
     except UserIdInvalid:
-        await message.edit("`ID de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`ID de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except Exception as e_f:
         await message.edit(f"`algo deu errado! 🤔`\n\n**ERROR:** `{e_f}`")
 
@@ -127,16 +132,22 @@ async def demote_usr(message: Message):
             f"CHAT: `{message.chat.title}` (`{chat_id}`)"
         )
     except UsernameInvalid:
-        await message.edit("`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except PeerIdInvalid:
         await message.edit(
-            "`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+            "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
         )
     except UserIdInvalid:
-        await message.edit("`ID de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`ID de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except Exception as e_f:
         await message.edit(f"`algo deu errado! 🤔`\n\n**ERROR:** `{e_f}`", del_in=5)
-
 
 
 @kannax.on_cmd(
@@ -186,7 +197,9 @@ async def ban_user(message: Message):
 
     try:
         get_mem = await message.client.get_chat_member(chat_id, user_id)
-        await message.reply_sticker("CAACAgEAAx0CSqdu1wACKuZhVF4AASJoh-uceGFGliKa5mRjEZgAAmQBAAKoqYlG7o7Z_jOv9AQeBA")
+        await message.reply_sticker(
+            "CAACAgEAAx0CSqdu1wACKuZhVF4AASJoh-uceGFGliKa5mRjEZgAAmQBAAKoqYlG7o7Z_jOv9AQeBA"
+        )
         await asyncio.sleep(2)
         await message.client.kick_chat_member(chat_id, user_id, int(ban_period))
         await message.edit(
@@ -199,13 +212,20 @@ async def ban_user(message: Message):
             log=__name__,
         )
     except UsernameInvalid:
-        await message.edit("`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except PeerIdInvalid:
         await message.edit(
-            "`nome de usuário ou ID de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+            "`nome de usuário ou ID de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
         )
     except UserIdInvalid:
-        await message.edit("`ID de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`ID de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except Exception as e_f:
         await message.edit(
             "`algo deu errado 🤔, .help ban para mais informações`\n\n"
@@ -248,13 +268,20 @@ async def unban_usr(message: Message):
             f"CHAT: `{message.chat.title}` (`{chat_id}`)"
         )
     except UsernameInvalid:
-        await message.edit("`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except PeerIdInvalid:
         await message.edit(
-            "`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+            "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
         )
     except UserIdInvalid:
-        await message.edit("`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except Exception as e_f:
         await message.edit(f"`algo deu errado! 🤔`\n\n**ERROR:** `{e_f}`", del_in=5)
 
@@ -293,13 +320,20 @@ async def kick_usr(message: Message):
             log=__name__,
         )
     except UsernameInvalid:
-        await message.edit("`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except PeerIdInvalid:
         await message.edit(
-            "`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+            "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
         )
     except UserIdInvalid:
-        await message.edit("`ID de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`ID de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except Exception as e_f:
         await message.edit(f"`algo deu errado! 🤔`\n\n**ERROR:** `{e_f}`", del_in=5)
 
@@ -308,7 +342,7 @@ async def kick_usr(message: Message):
     "kickme",
     about={
         "header": "saia do chat",
-        "description": "faz com que você saia do chat rapidamente."
+        "description": "faz com que você saia do chat rapidamente.",
     },
     allow_channels=False,
 )
@@ -373,15 +407,18 @@ async def mute_usr(message: Message):
             )
         except UsernameInvalid:
             await message.edit(
-                "`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+                "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+                del_in=5,
             )
         except PeerIdInvalid:
             await message.edit(
-                "`nome de usuário ou ID de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+                "`nome de usuário ou ID de usuário inválido, tente novamente com informações válidas ⚠`",
+                del_in=5,
             )
         except UserIdInvalid:
             await message.edit(
-                "`ID de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+                "`ID de usuário inválido, tente novamente com informações válidas ⚠`",
+                del_in=5,
             )
         except Exception as e_f:
             await message.edit(
@@ -406,15 +443,18 @@ async def mute_usr(message: Message):
             )
         except UsernameInvalid:
             await message.edit(
-                "`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+                "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+                del_in=5,
             )
         except PeerIdInvalid:
             await message.edit(
-                "`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+                "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+                del_in=5,
             )
         except UserIdInvalid:
             await message.edit(
-                "`ID de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5
+                "`ID de usuário inválido, tente novamente com informações válidas ⚠`",
+                del_in=5,
             )
         except Exception as e_f:
             await message.edit(
@@ -455,13 +495,19 @@ async def unmute_usr(message: Message):
             f"CHAT: `{message.chat.title}` (`{chat_id}`)"
         )
     except UsernameInvalid:
-        await message.edit("`nome de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`nome de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except PeerIdInvalid:
         await message.edit(
             "`invalid username or userid, try again with valid info ⚠`", del_in=5
         )
     except UserIdInvalid:
-        await message.edit("`ID de usuário inválido, tente novamente com informações válidas ⚠`", del_in=5)
+        await message.edit(
+            "`ID de usuário inválido, tente novamente com informações válidas ⚠`",
+            del_in=5,
+        )
     except Exception as e_f:
         await message.edit(f"`algo deu errado!` 🤔\n\n**ERROR:** `{e_f}`", del_in=5)
 
@@ -588,7 +634,9 @@ async def unpin_msgs(message: Message):
             await message.client.unpin_all_chat_messages(message.chat.id)
         else:
             if not reply:
-                await message.err("Primeiro responda uma mensagem para desfixar !", del_in=5)
+                await message.err(
+                    "Primeiro responda uma mensagem para desfixar !", del_in=5
+                )
                 return
             await reply.unpin()
         await message.delete()
@@ -671,7 +719,8 @@ async def smode_switch(message: Message):
             seconds = int(seconds)
             await message.client.set_slow_mode(chat_id, seconds)
             await message.edit(
-                f"`⏳ ligado o modo lento por {seconds} segundos no bate-papo!`", del_in=5
+                f"`⏳ ligado o modo lento por {seconds} segundos no bate-papo!`",
+                del_in=5,
             )
             await CHANNEL.log(
                 f"#SLOW_MODE\n\n"

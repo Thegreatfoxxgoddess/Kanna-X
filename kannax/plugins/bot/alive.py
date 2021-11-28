@@ -20,6 +20,7 @@ _USER_CACHED_MEDIA, _BOT_CACHED_MEDIA = None, None
 
 LOGGER = kannax.getLogger(__name__)
 
+
 async def _init() -> None:
     global _USER_CACHED_MEDIA, _BOT_CACHED_MEDIA
     if Config.ALIVE_MEDIA and Config.ALIVE_MEDIA.lower() != "false":
@@ -164,7 +165,6 @@ if kannax.has_bot:
         )
         return status_alive_
 
-
     @kannax.bot.on_callback_query(filters.regex(pattern=r"^settings_btn$"))
     async def alive_cb(_, c_q: CallbackQuery):
         allow = bool(
@@ -257,7 +257,7 @@ class Bot_Alive:
             ],
             [
                 InlineKeyboardButton(text="✨  ᴜᴘᴅᴀᴛᴇs", url="t.me/kannaxup"),
-            ]
+            ],
         ]
         return InlineKeyboardMarkup(buttons)
 
@@ -281,6 +281,7 @@ class Bot_Alive:
     @staticmethod
     def is_photo(file_id: str) -> bool:
         return bool(FileId.decode(file_id).file_type in PHOTO_TYPES)
+
 
 FRASES = (
     "ʟᴇᴍʙʀᴇ-sᴇ ᴅᴀ ʟɪᴄ̧ᴀ̃ᴏ ᴇ ɴᴀ̃ᴏ ᴅᴀ ᴅᴇᴄᴇᴘᴄ̧ᴀ̃ᴏ.",

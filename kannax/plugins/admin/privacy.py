@@ -22,13 +22,14 @@ CHANNEL = kannax.getCLogger(__name__)
         "examples": "{tr}block @fnixdev",
     },
 )
-
 async def block_user(message: Message):
     """Bloqueia um usuário!"""
     reply = message.reply_to_message
     user_id = reply.from_user.id if reply else message.input_str
     if not (reply or message.input_str):
-        await message.err("Responda a um usuário ou forneça ID para bloqueá-lo !", del_in=5)
+        await message.err(
+            "Responda a um usuário ou forneça ID para bloqueá-lo !", del_in=5
+        )
         return
     user_id = reply.from_user.id if reply else message.input_str
     bot_id = (await kannax.bot.get_me()).id
@@ -61,7 +62,9 @@ async def unblock_user(message: Message):
     """Desbloqueia um usuário!"""
     reply = message.reply_to_message
     if not (reply or message.input_str):
-        await message.err("Responda a um usuário ou forneça ID para desbloqueá-lo!", del_in=5)
+        await message.err(
+            "Responda a um usuário ou forneça ID para desbloqueá-lo!", del_in=5
+        )
         return
     user_id = reply.from_user.id if reply else message.input_str
     if user_id in Config.OWNER_ID:

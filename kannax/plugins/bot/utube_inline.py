@@ -25,7 +25,7 @@ from wget import download
 from youtube_dl.utils import DownloadError, ExtractorError, GeoRestrictedError
 from youtubesearchpython import VideosSearch
 
-from kannax import Config, Message, pool, kannax
+from kannax import Config, Message, kannax, pool
 from kannax.utils import (
     check_owner,
     get_file_id,

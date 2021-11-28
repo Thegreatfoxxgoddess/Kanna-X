@@ -1,9 +1,11 @@
 # Modulo print by @Hitalo portado para KannaX
 
-import httpx
 from io import BytesIO
 
-from kannax import kannax, Message
+import httpx
+
+from kannax import Message, kannax
+
 
 @kannax.on_cmd(
     "print",
@@ -24,6 +26,4 @@ async def printer(message: Message):
     await http.aclose()
     bio.name = "screenshot.png"
     await message.delete()
-    await message.client.send_photo(
-                    chat_id=message.chat.id,
-                    photo=bio)
+    await message.client.send_photo(chat_id=message.chat.id, photo=bio)

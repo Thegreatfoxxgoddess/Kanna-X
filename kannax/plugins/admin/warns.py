@@ -222,7 +222,11 @@ async def update_warnmode(message: Message, warn_mode: str):
         )
     else:
         out = out.format(
-            "Modo de Aviso", "Atualizado", warn_mode, message.chat.title, message.chat.id
+            "Modo de Aviso",
+            "Atualizado",
+            warn_mode,
+            message.chat.title,
+            message.chat.id,
         )
     await CHANNEL.log(out)
     return out
@@ -257,9 +261,13 @@ async def maxwarns(message: Message):
     )
     out = "{} <b>{}</b> for {}\n**ID:** {}"
     if result.upserted_id:
-        out = out.format("Max de Avisos", "Alterado", message.chat.title, message.chat.id)
+        out = out.format(
+            "Max de Avisos", "Alterado", message.chat.title, message.chat.id
+        )
     else:
-        out = out.format("Max de Avisos", "Atualizado", message.chat.title, message.chat.id)
+        out = out.format(
+            "Max de Avisos", "Atualizado", message.chat.title, message.chat.id
+        )
     await message.edit(out)
     await CHANNEL.log(out)
 
@@ -419,7 +427,9 @@ if kannax.has_bot:
         if u_id not in Config.OWNER_ID:
             return await c_q.answer(permission_denied, show_alert=True)
         warnmode = c_q.matches[0].group(1)
-        await c_q.answer(f"Modo de aviso atualizado para '{warnmode}'", show_alert=False)
+        await c_q.answer(
+            f"Modo de aviso atualizado para '{warnmode}'", show_alert=False
+        )
         out = await update_warnmode(c_q.message, warnmode)
         await c_q.edit_message_caption(
             caption=out,

@@ -43,7 +43,9 @@ async def who_is(message: Message):
     if from_user or from_chat is not None:
         pp_c = await message.client.get_profile_photos_count(from_user.id)
         message_out_str = "<b>INFORMAÇÃO DE USUÁRIO:</b>\n\n"
-        message_out_str += f"<b>🗣 Primeiro Nome:</b> <code>{from_user.first_name}</code>\n"
+        message_out_str += (
+            f"<b>🗣 Primeiro Nome:</b> <code>{from_user.first_name}</code>\n"
+        )
         message_out_str += f"<b>🗣 Ultimo Nome:</b> <code>{from_user.last_name}</code>\n"
         message_out_str += f"<b>👤 Username:</b> @{from_user.username}\n"
         message_out_str += f"<b>🏢 DC ID:</b> <code>{from_user.dc_id}</code>\n"
@@ -60,7 +62,9 @@ async def who_is(message: Message):
         else:
             message_out_str += f"<b>👥 Bate-papos Comuns:</b> <code>{cc_no}</code>\n"
         message_out_str += f"<b>📝 Bio:</b> <code>{from_chat.bio}</code>\n\n"
-        message_out_str += f"<b>👁 Visto por Ultimo:</b> <code>{from_user.status}</code>\n"
+        message_out_str += (
+            f"<b>👁 Visto por Ultimo:</b> <code>{from_user.status}</code>\n"
+        )
         message_out_str += "<b>🔗 Link Permanente para o Perfil:</b> "
         message_out_str += (
             f"<a href='tg://user?id={from_user.id}'>{from_user.first_name}</a>"

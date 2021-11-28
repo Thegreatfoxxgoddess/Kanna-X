@@ -4,7 +4,8 @@
 
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-from kannax import Message, Config, kannax
+
+from kannax import Config, Message, kannax
 from kannax.utils import get_response
 
 API = "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,GBP-BRL,JPY-BRL,BTC-BRL,ETH-BRL,XRP-BRL,DOGE-BRL"
@@ -30,8 +31,12 @@ if kannax.has_bot:
 
             buttons = [
                 [
-                    InlineKeyboardButton("Moedas Internacionais", callback_data="moeda_internacionais"),
-                    InlineKeyboardButton("Crypto Moedas", callback_data="crypto_moedas"),
+                    InlineKeyboardButton(
+                        "Moedas Internacionais", callback_data="moeda_internacionais"
+                    ),
+                    InlineKeyboardButton(
+                        "Crypto Moedas", callback_data="crypto_moedas"
+                    ),
                 ],
             ]
 
@@ -45,7 +50,9 @@ if kannax.has_bot:
                 "Desculpe, você não pode acessar isto!\n\n ɪɴsᴛᴀʟᴇ sᴇᴜ KᴀɴɴᴀX",
                 show_alert=True,
             )
-#Moedas internacionais MainMenu
+
+    # Moedas internacionais MainMenu
+
     @kannax.bot.on_callback_query(filters.regex(pattern=r"^moeda_internacionais$"))
     async def coin_int(_, callback_query: CallbackQuery):
         u_id = callback_query.from_user.id
@@ -60,9 +67,8 @@ if kannax.has_bot:
                     InlineKeyboardButton("Iene", callback_data="coin_iene"),
                 ],
                 [
-                    InlineKeyboardButton(
-                        "Voltar", callback_data="back_moedas"),
-                ]
+                    InlineKeyboardButton("Voltar", callback_data="back_moedas"),
+                ],
             ]
 
             await kannax.bot.edit_inline_text(
@@ -76,7 +82,7 @@ if kannax.has_bot:
                 show_alert=True,
             )
 
-# Coin list
+    # Coin list
     @kannax.bot.on_callback_query(filters.regex(pattern=r"^coin_dol$"))
     async def coins_dol(_, callback_query: CallbackQuery):
         u_id = callback_query.from_user.id
@@ -84,7 +90,8 @@ if kannax.has_bot:
             buttons = [
                 [
                     InlineKeyboardButton(
-                        "Voltar", callback_data="moeda_internacionais"),
+                        "Voltar", callback_data="moeda_internacionais"
+                    ),
                 ]
             ]
             cota = await get_response.json(link=API)
@@ -112,7 +119,8 @@ if kannax.has_bot:
             buttons = [
                 [
                     InlineKeyboardButton(
-                        "Voltar", callback_data="moeda_internacionais"),
+                        "Voltar", callback_data="moeda_internacionais"
+                    ),
                 ]
             ]
             cota = await get_response.json(link=API)
@@ -140,7 +148,8 @@ if kannax.has_bot:
             buttons = [
                 [
                     InlineKeyboardButton(
-                        "Voltar", callback_data="moeda_internacionais"),
+                        "Voltar", callback_data="moeda_internacionais"
+                    ),
                 ]
             ]
             cota = await get_response.json(link=API)
@@ -168,7 +177,8 @@ if kannax.has_bot:
             buttons = [
                 [
                     InlineKeyboardButton(
-                        "Voltar", callback_data="moeda_internacionais"),
+                        "Voltar", callback_data="moeda_internacionais"
+                    ),
                 ]
             ]
             cota = await get_response.json(link=API)
@@ -189,8 +199,8 @@ if kannax.has_bot:
                 show_alert=True,
             )
 
+    # Crypto Moedas MainMenu
 
-#Crypto Moedas MainMenu
     @kannax.bot.on_callback_query(filters.regex(pattern=r"^crypto_moedas$"))
     async def crypto_coins(_, callback_query: CallbackQuery):
         u_id = callback_query.from_user.id
@@ -205,9 +215,8 @@ if kannax.has_bot:
                     InlineKeyboardButton("Dogecoin ", callback_data="crypt_doge"),
                 ],
                 [
-                    InlineKeyboardButton(
-                        "Voltar", callback_data="back_moedas"),
-                ]
+                    InlineKeyboardButton("Voltar", callback_data="back_moedas"),
+                ],
             ]
 
             await kannax.bot.edit_inline_text(
@@ -221,16 +230,15 @@ if kannax.has_bot:
                 show_alert=True,
             )
 
+    # Crypto list
 
-#Crypto list
     @kannax.bot.on_callback_query(filters.regex(pattern=r"^crypt_btc$"))
     async def crypto_btc(_, callback_query: CallbackQuery):
         u_id = callback_query.from_user.id
         if u_id in Config.OWNER_ID or u_id in Config.SUDO_USERS:
             buttons = [
                 [
-                    InlineKeyboardButton(
-                        "Voltar", callback_data="crypto_moedas"),
+                    InlineKeyboardButton("Voltar", callback_data="crypto_moedas"),
                 ]
             ]
             cota = await get_response.json(link=API)
@@ -257,8 +265,7 @@ if kannax.has_bot:
         if u_id in Config.OWNER_ID or u_id in Config.SUDO_USERS:
             buttons = [
                 [
-                    InlineKeyboardButton(
-                        "Voltar", callback_data="crypto_moedas"),
+                    InlineKeyboardButton("Voltar", callback_data="crypto_moedas"),
                 ]
             ]
             cota = await get_response.json(link=API)
@@ -285,8 +292,7 @@ if kannax.has_bot:
         if u_id in Config.OWNER_ID or u_id in Config.SUDO_USERS:
             buttons = [
                 [
-                    InlineKeyboardButton(
-                        "Voltar", callback_data="crypto_moedas"),
+                    InlineKeyboardButton("Voltar", callback_data="crypto_moedas"),
                 ]
             ]
             cota = await get_response.json(link=API)
@@ -313,8 +319,7 @@ if kannax.has_bot:
         if u_id in Config.OWNER_ID or u_id in Config.SUDO_USERS:
             buttons = [
                 [
-                    InlineKeyboardButton(
-                        "Voltar", callback_data="crypto_moedas"),
+                    InlineKeyboardButton("Voltar", callback_data="crypto_moedas"),
                 ]
             ]
             cota = await get_response.json(link=API)
@@ -334,4 +339,3 @@ if kannax.has_bot:
                 "Desculpe, você não pode acessar isto!\n\n ɪɴsᴛᴀʟᴇ sᴇᴜ KᴀɴɴᴀX",
                 show_alert=True,
             )
-

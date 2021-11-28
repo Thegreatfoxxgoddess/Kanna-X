@@ -11,7 +11,8 @@ from kannax import Message, kannax
 
 
 @kannax.on_cmd(
-    "type", about={"header": "Simule uma máquina de escrever", "usage": "{tr}type [texto]"}
+    "type",
+    about={"header": "Simule uma máquina de escrever", "usage": "{tr}type [texto]"},
 )
 async def type_(message: Message):
     text = message.input_str

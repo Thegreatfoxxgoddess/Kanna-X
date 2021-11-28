@@ -4,7 +4,7 @@
 
 import aiohttp
 
-from kannax import Config, Message, logging, pool, kannax
+from kannax import Config, Message, kannax, logging, pool
 
 NEKOBIN_URL = "https://nekobin.com/"
 

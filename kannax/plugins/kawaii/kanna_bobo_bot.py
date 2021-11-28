@@ -16,7 +16,7 @@ from kannax import Message, kannax
 )
 async def ln_user_(message: Message):
     """device desc"""
-    device_ = message.input_str 
+    device_ = message.input_str
     bot_ = "@vegadata_bot"
     async with kannax.conversation(bot_, timeout=1000) as conv:
         try:

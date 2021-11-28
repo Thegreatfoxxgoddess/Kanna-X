@@ -6,19 +6,21 @@
 
 """coisas relacionadas a android"""
 
+import requests
 from bs4 import BeautifulSoup
 from requests import get
-from kannax import Message, kannax
-import requests
 
+from kannax import Message, kannax
 
 DEVICE_LIST = "https://raw.githubusercontent.com/androidtrackers/certified-android-devices/master/by_device.json"
 
 
 @kannax.on_cmd(
     "device",
-    about={"header": "Encontre dispositivo pelo codename",
-           "usage": "{tr}device [codename]"},
+    about={
+        "header": "Encontre dispositivo pelo codename",
+        "usage": "{tr}device [codename]",
+    },
     allow_via_bot=True,
 )
 async def device_info(message: Message):
@@ -42,8 +44,10 @@ async def device_info(message: Message):
 
 @kannax.on_cmd(
     "twrp",
-    about={"header": "Encontre TWRP para seu dispositivo",
-           "usage": "{tr}twrp <codename>"},
+    about={
+        "header": "Encontre TWRP para seu dispositivo",
+        "usage": "{tr}twrp <codename>",
+    },
     allow_via_bot=True,
 )
 async def device_recovery(message: Message):
@@ -88,8 +92,7 @@ async def magisk_(message: Message):
         data = get(release_url).json()
         if "canary" in release_url:
             data["app"]["link"] = magisk_repo + "canary/" + data["app"]["link"]
-            data["magisk"]["link"] = magisk_repo + \
-                "canary/" + data["magisk"]["link"]
+            data["magisk"]["link"] = magisk_repo + "canary/" + data["magisk"]["link"]
             data["uninstaller"]["link"] = (
                 magisk_repo + "canary/" + data["uninstaller"]["link"]
             )

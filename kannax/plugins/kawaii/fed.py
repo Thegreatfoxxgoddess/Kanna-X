@@ -57,7 +57,6 @@ async def f_stat(message: Message):
         await message.edit(resp, parse_mode="html")
 
 
-
 @kannax.on_cmd(
     "fbanstat",
     about={

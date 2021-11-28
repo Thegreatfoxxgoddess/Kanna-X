@@ -20,7 +20,7 @@ from zipfile import ZipFile, is_zipfile
 
 from rarfile import RarFile, is_rarfile
 
-from kannax import Config, Message, pool, kannax
+from kannax import Config, Message, kannax, pool
 from kannax.utils import humanbytes, time_formatter
 from kannax.utils.exceptions import ProcessCanceled
 

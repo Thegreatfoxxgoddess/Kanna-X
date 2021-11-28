@@ -9,7 +9,7 @@
 
 from covid import Covid
 
-from kannax import Message, pool, kannax
+from kannax import Message, kannax, pool
 
 
 @kannax.on_cmd(

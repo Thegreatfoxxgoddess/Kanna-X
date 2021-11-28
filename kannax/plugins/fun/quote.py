@@ -51,7 +51,9 @@ async def quotecmd(message: Message):
     else:
         await message.delete()
     if not args and len(quote_list) == 0:
-        await message.err("Responda a uma mensagem ou fornecer um texto para quote !", del_in=5)
+        await message.err(
+            "Responda a uma mensagem ou fornecer um texto para quote !", del_in=5
+        )
         return
     try:
         async with kannax.conversation("QuotLyBot", timeout=100) as conv:

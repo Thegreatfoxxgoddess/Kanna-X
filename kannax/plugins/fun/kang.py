@@ -300,7 +300,8 @@ async def sticker_search(message: Message):
 
     if not query_:
         return message.err(
-            "responder a um usuário ou fornecer texto para pesquisar pacotes de adesivos", del_in=3
+            "responder a um usuário ou fornecer texto para pesquisar pacotes de adesivos",
+            del_in=3,
         )
 
     await message.edit(f'🔎 Procurando pacotes de adesivos para "`{query_}`"...')
@@ -328,6 +329,7 @@ async def sticker_search(message: Message):
 
 
 # import from oub-remix to ux by Itachi_HTK/ashwinstr
+
 
 @kannax.on_cmd(
     "imgs",

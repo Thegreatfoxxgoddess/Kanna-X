@@ -7,7 +7,7 @@ from json import dumps
 
 from googletrans import LANGUAGES, Translator
 
-from kannax import Config, Message, pool, kannax
+from kannax import Config, Message, kannax, pool
 from kannax.utils.functions import get_emoji_regex
 
 

@@ -1,6 +1,8 @@
-import httpx
-from kannax import Message, kannax
 import re
+
+import httpx
+
+from kannax import Message, kannax
 
 
 @kannax.on_cmd(
@@ -19,10 +21,12 @@ async def random_neko(message: Message):
             async with httpx.AsyncClient() as client:
                 r = await client.get("https://nekos.life/")
             midia = re.findall(
-                r"<meta property=\"og:image\" content=\"(.*)\"/>", r.text)[0]
+                r"<meta property=\"og:image\" content=\"(.*)\"/>", r.text
+            )[0]
             return await message.client.send_photo(
-                chat_id=message.chat.id, photo=midia, reply_to_message_id=reply_id)
-        except:
+                chat_id=message.chat.id, photo=midia, reply_to_message_id=reply_id
+            )
+        except BaseException:
             pass
 
 
@@ -43,7 +47,8 @@ async def random_cat(message: Message):
     cat = r.json
     await message.delete()
     await message.client.send_photo(
-        chat_id=message.chat.id, photo=(cat()[0]["url"]), reply_to_message_id=reply_id)
+        chat_id=message.chat.id, photo=(cat()[0]["url"]), reply_to_message_id=reply_id
+    )
 
 
 @kannax.on_cmd(
@@ -63,4 +68,5 @@ async def random_dog(message: Message):
     dog = r.json
     await message.delete()
     await message.client.send_photo(
-        chat_id=message.chat.id, photo=(dog()[0]["url"]), reply_to_message_id=reply_id)
+        chat_id=message.chat.id, photo=(dog()[0]["url"]), reply_to_message_id=reply_id
+    )

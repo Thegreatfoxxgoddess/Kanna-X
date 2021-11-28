@@ -20,7 +20,7 @@ from pyrogram.errors import (
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from kannax import Config, Message, get_collection, logging, pool, kannax
+from kannax import Config, Message, get_collection, kannax, logging, pool
 from kannax.utils.exceptions import KannaXBotNotFound
 
 RSS_CHAT_ID = [

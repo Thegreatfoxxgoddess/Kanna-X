@@ -24,4 +24,3 @@ def get_all_plugins() -> List[str]:
     )
     _LOG.debug("Todos os plug-ins disponíveis: %s", plugins)
     return list(plugins)
-

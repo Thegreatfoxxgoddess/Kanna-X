@@ -8,6 +8,7 @@
 # API: https://www.last.fm/api
 
 import aiohttp
+
 from kannax import Config, Message, kannax
 from kannax.utils import get_response
 
@@ -63,7 +64,9 @@ async def last_fm_pic_(message: Message):
     get_track = view_data_["track"]
     get_scrob = int(get_track["userplaycount"]) + 1
     scrobbler_ = f"\n\n<b>🎵 {get_scrob} Scrobbles</b>"
-    await message.edit(f"<a href={image}>\u200c</a>" + rep + scrobbler_, parse_mode="html")
+    await message.edit(
+        f"<a href={image}>\u200c</a>" + rep + scrobbler_, parse_mode="html"
+    )
 
 
 @kannax.on_cmd(
@@ -208,21 +211,30 @@ async def check_lastfmvar(message: Message):
     )
     return False
 
-# The code i am using at the moment, this might work as it is, feel free to edit as per bot's use
+
+# The code i am using at the moment, this might work as it is, feel free
+# to edit as per bot's use
 
 du = "https://last.fm/user/"
 
 
 async def resp(params: dict):
-    async with aiohttp.ClientSession() as session, \
-            session.get("http://ws.audioscrobbler.com/2.0", params=params) as res:
+    async with aiohttp.ClientSession() as session, session.get(
+        "http://ws.audioscrobbler.com/2.0", params=params
+    ) as res:
         return res.status, await res.json()
 
 
 async def recs(query, typ, lim):
-    params = {"method": f"user.get{typ}", "user": query, "limit": lim,
-              "api_key": Config.LASTFM_API_KEY, "format": "json"}
+    params = {
+        "method": f"user.get{typ}",
+        "user": query,
+        "limit": lim,
+        "api_key": Config.LASTFM_API_KEY,
+        "format": "json",
+    }
     return await resp(params)
+
 
 USERNAME = Config.LASTFM_USERNAME
 

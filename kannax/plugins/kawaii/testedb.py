@@ -1,7 +1,9 @@
-from kannax import Message, get_collection, kannax
 from telegraph import upload_file
 
+from kannax import Message, get_collection, kannax
+
 SAVED = get_collection("TESTE_DB")
+
 
 async def _init():
     global ALIVE_MEDIA  # pylint: disable=global-statement
@@ -30,7 +32,7 @@ async def ani_save_media_alive(message: Message):
         await message.edit("`Alive Media definida com sucesso!`")
     elif query:
         await SAVED.update_one(
-                        {"_id": "ALIVE_MEDIA"}, {"$set": {"link": query}}, upsert=True
+            {"_id": "ALIVE_MEDIA"}, {"$set": {"link": query}}, upsert=True
         )
         await message.edit("`Alive Media definida com sucesso!`")
     else:
@@ -61,8 +63,7 @@ async def view_del_ani(message: Message):
             await message.edit(media)
         if "-a" in message.flags:
             await message.client.send_animation(
-                  chat_id=message.chat.id,
-                  animation=media,
-                  caption=msg)
+                chat_id=message.chat.id, animation=media, caption=msg
+            )
     else:
         await message.err("`Alive Media não está definida.`")

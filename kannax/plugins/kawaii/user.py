@@ -3,25 +3,23 @@
 # Editado por fnixdev
 
 
-from pyrogram.errors.exceptions.bad_request_400 import (
-    AboutTooLong,
-    UsernameNotOccupied,
-    VideoFileInvalid)
-
 import asyncio
 import base64
 import os
-from datetime import datetime
 import textwrap
+from datetime import datetime
 from shutil import copyfile
-from asyncio import sleep
-
 
 import aiofiles
 from PIL import Image, ImageDraw, ImageFont
+from pyrogram.errors.exceptions.bad_request_400 import (
+    AboutTooLong,
+    UsernameNotOccupied,
+    VideoFileInvalid,
+)
 
 from kannax import Config, Message, get_collection, kannax
-from kannax.utils import progress, is_dev
+from kannax.utils import is_dev, progress
 
 SAVED_SETTINGS = get_collection("CONFIGS")
 UPDATE_PIC = False
@@ -66,7 +64,9 @@ async def autopic(message: Message):
         await message.edit("`definindo foto antiga...`")
         await kannax.set_profile_photo(photo=BASE_PIC)
         await message.edit(
-            "a atualização automática da foto do perfil foi **interrompida**", del_in=5, log=__name__
+            "a atualização automática da foto do perfil foi **interrompida**",
+            del_in=5,
+            log=__name__,
         )
         return
     image_path = message.input_str
@@ -97,7 +97,9 @@ async def autopic(message: Message):
         {"_id": "UPDATE_PIC"}, {"$set": data_dict}, upsert=True
     )
     await message.edit(
-        "a atualização automática da foto do perfil foi **iniciada**", del_in=3, log=__name__
+        "a atualização automática da foto do perfil foi **iniciada**",
+        del_in=3,
+        log=__name__,
     )
     UPDATE_PIC = asyncio.get_event_loop().create_task(apic_worker())
 
@@ -105,24 +107,20 @@ async def autopic(message: Message):
 @kannax.add_task
 async def apic_worker():
     user_dict = await kannax.get_user_dict("me")
-    user = "@" + \
-        user_dict["uname"] if user_dict["uname"] else user_dict["flname"]
+    user = "@" + user_dict["uname"] if user_dict["uname"] else user_dict["flname"]
     count = 0
     while UPDATE_PIC:
         if not count % Config.AUTOPIC_TIMEOUT:
             img = Image.open(BASE_PIC)
             i_width, i_height = img.size
-            s_font = ImageFont.truetype(
-                "resources/font.ttf", int((35 / 640) * i_width))
-            l_font = ImageFont.truetype(
-                "resources/font.ttf", int((50 / 640) * i_width))
+            s_font = ImageFont.truetype("resources/font.ttf", int((35 / 640) * i_width))
+            l_font = ImageFont.truetype("resources/font.ttf", int((50 / 640) * i_width))
             draw = ImageDraw.Draw(img)
             current_h, pad = 10, 0
             for user in textwrap.wrap(user, width=20):
                 u_width, u_height = draw.textsize(user, font=l_font)
                 draw.text(
-                    xy=((i_width - u_width) / 2,
-                        int((current_h / 640) * i_width)),
+                    xy=((i_width - u_width) / 2, int((current_h / 640) * i_width)),
                     text=user,
                     font=l_font,
                     fill=(255, 255, 255),
@@ -157,21 +155,22 @@ async def apic_worker():
         LOG.info("a atualização da foto do perfil foi interrompida!")
 
 
-@kannax.on_cmd("bio", about={
-    'header': "Update bio, Maximum limit 70 characters",
-    'flags': {
-        '-delbio': "delete bio"},
-    'usage': "{tr}bio [flag] \n"
-             "{tr}bio [Bio]",
-    'examples': [
-        "{tr}bio -delbio",
-        "{tr}bio  My name is krishna :-)"]}, allow_via_bot=False)
+@kannax.on_cmd(
+    "bio",
+    about={
+        "header": "Update bio, Maximum limit 70 characters",
+        "flags": {"-delbio": "delete bio"},
+        "usage": "{tr}bio [flag] \n" "{tr}bio [Bio]",
+        "examples": ["{tr}bio -delbio", "{tr}bio  My name is krishna :-)"],
+    },
+    allow_via_bot=False,
+)
 async def bio_(message: Message):
-    """ Set or delete profile bio """
+    """Set or delete profile bio"""
     if not message.input_str:
         await message.err("Need Text to Change Bio...")
         return
-    if '-delbio' in message.flags:
+    if "-delbio" in message.flags:
         await kannax.update_profile(bio="")
         await message.edit("```Bio is Successfully Deleted ...```", del_in=3)
         return
@@ -181,27 +180,38 @@ async def bio_(message: Message):
         except AboutTooLong:
             await message.err("Bio is More then 70 characters...")
         else:
-            await message.edit("```My Profile Bio is Successfully Updated ...```", del_in=3)
+            await message.edit(
+                "```My Profile Bio is Successfully Updated ...```", del_in=3
+            )
 
 
-@kannax.on_cmd('setpic', about={
-    'header': "Set profile picture",
-    'usage': "{tr}setpic [reply to any photo]"}, allow_via_bot=False)
+@kannax.on_cmd(
+    "setpic",
+    about={"header": "Set profile picture", "usage": "{tr}setpic [reply to any photo]"},
+    allow_via_bot=False,
+)
 async def set_profile_picture(message: Message):
-    """ Set Profile Picture """
+    """Set Profile Picture"""
     await message.edit("```processing ...```")
 
     replied = message.reply_to_message
     s_time = datetime.now()
 
-    if (replied and replied.media and (
-            replied.photo or (replied.document and "image" in replied.document.mime_type))):
+    if (
+        replied
+        and replied.media
+        and (
+            replied.photo
+            or (replied.document and "image" in replied.document.mime_type)
+        )
+    ):
 
-        await kannax.download_media(message=replied,
-                                    file_name=PHOTO,
-                                    progress=progress,
-                                    progress_args=(
-                                        message, "trying to download and set profile picture"))
+        await kannax.download_media(
+            message=replied,
+            file_name=PHOTO,
+            progress=progress,
+            progress_args=(message, "trying to download and set profile picture"),
+        )
 
         await kannax.set_profile_photo(photo=PHOTO)
 
@@ -211,14 +221,14 @@ async def set_profile_picture(message: Message):
         t_time = (e_time - s_time).seconds
         await message.edit(f"`Profile picture set in {t_time} seconds.`")
 
-    elif (replied and replied.media and (
-            replied.video or replied.animation)):
+    elif replied and replied.media and (replied.video or replied.animation):
         VIDEO = Config.DOWN_PATH + "profile_vid.mp4"
-        await kannax.download_media(message=replied,
-                                    file_name=VIDEO,
-                                    progress=progress,
-                                    progress_args=(
-                                        message, "trying to download and set profile picture"))
+        await kannax.download_media(
+            message=replied,
+            file_name=VIDEO,
+            progress=progress,
+            progress_args=(message, "trying to download and set profile picture"),
+        )
 
         try:
             await kannax.set_profile_photo(video=VIDEO)
@@ -233,20 +243,25 @@ async def set_profile_picture(message: Message):
         await message.err("Reply to any photo or video to set profile pic...")
 
 
-@kannax.on_cmd('vpf', about={
-    'header': "View Profile of any user",
-    'flags': {
-        '-fname': "Print only first name",
-        '-lname': "Print only last name",
-        '-flname': "Print full name",
-        '-bio': "Print bio",
-        '-uname': "Print username",
-        '-pp': "Upload profile picture"},
-    'usage': "{tr}vpf [flags]\n{tr}vpf [flags] [reply to any user]",
-    'note': "<b> -> Use 'me' after flags to print own profile</b>\n"
-            "<code>{tr}vpf [flags] me</code>"})
+@kannax.on_cmd(
+    "vpf",
+    about={
+        "header": "View Profile of any user",
+        "flags": {
+            "-fname": "Print only first name",
+            "-lname": "Print only last name",
+            "-flname": "Print full name",
+            "-bio": "Print bio",
+            "-uname": "Print username",
+            "-pp": "Upload profile picture",
+        },
+        "usage": "{tr}vpf [flags]\n{tr}vpf [flags] [reply to any user]",
+        "note": "<b> -> Use 'me' after flags to print own profile</b>\n"
+        "<code>{tr}vpf [flags] me</code>",
+    },
+)
 async def view_profile(message: Message):
-    """ View Profile  """
+    """View Profile"""
 
     if not message.input_or_reply_str:
         await message.err("User id / Username not found...")
@@ -271,38 +286,40 @@ async def view_profile(message: Message):
         except Exception:
             await message.err("invalid user_id!")
             return
-    if '-fname' in message.flags:
+    if "-fname" in message.flags:
         await message.edit("```checking, wait plox !...```", del_in=3)
         first_name = user.first_name
-        await message.edit("<code>{}</code>".format(first_name), parse_mode='html')
-    elif '-lname' in message.flags:
+        await message.edit("<code>{}</code>".format(first_name), parse_mode="html")
+    elif "-lname" in message.flags:
         if not user.last_name:
             await message.err("User not have last name...")
         else:
             await message.edit("```checking, wait plox !...```", del_in=3)
             last_name = user.last_name
-            await message.edit("<code>{}</code>".format(last_name), parse_mode='html')
-    elif '-flname' in message.flags:
+            await message.edit("<code>{}</code>".format(last_name), parse_mode="html")
+    elif "-flname" in message.flags:
         await message.edit("```checking, wait plox !...```", del_in=3)
         if not user.last_name:
-            await message.edit("<code>{}</code>".format(user.first_name), parse_mode='html')
+            await message.edit(
+                "<code>{}</code>".format(user.first_name), parse_mode="html"
+            )
         else:
             full_name = user.first_name + " " + user.last_name
-            await message.edit("<code>{}</code>".format(full_name), parse_mode='html')
-    elif '-bio' in message.flags:
+            await message.edit("<code>{}</code>".format(full_name), parse_mode="html")
+    elif "-bio" in message.flags:
         if not bio:
             await message.err("User not have bio...")
         else:
             await message.edit("`checking, wait plox !...`", del_in=3)
-            await message.edit("<code>{}</code>".format(bio), parse_mode='html')
-    elif '-uname' in message.flags:
+            await message.edit("<code>{}</code>".format(bio), parse_mode="html")
+    elif "-uname" in message.flags:
         if not user.username:
             await message.err("User not have username...")
         else:
             await message.edit("```checking, wait plox !...```", del_in=3)
             username = user.username
-            await message.edit("<code>{}</code>".format(username), parse_mode='html')
-    elif '-pp' in message.flags:
+            await message.edit("<code>{}</code>".format(username), parse_mode="html")
+    elif "-pp" in message.flags:
         if not user.photo:
             await message.err("profile photo not found!...")
         else:
@@ -313,13 +330,17 @@ async def view_profile(message: Message):
                 os.remove(PHOTO)
 
 
-@kannax.on_cmd("delpfp", about={
-    'header': "Delete Profile Pics",
-    'description': "Delete profile pic in one blow"
-                   " [NOTE: May Cause Flood Wait]",
-    'usage': "{tr}delpfp [pfp count]"}, allow_via_bot=False)
+@kannax.on_cmd(
+    "delpfp",
+    about={
+        "header": "Delete Profile Pics",
+        "description": "Delete profile pic in one blow" " [NOTE: May Cause Flood Wait]",
+        "usage": "{tr}delpfp [pfp count]",
+    },
+    allow_via_bot=False,
+)
 async def del_pfp(message: Message):
-    """ delete profile pics """
+    """delete profile pics"""
     if message.input_str:
         try:
             del_c = int(message.input_str)
@@ -340,23 +361,32 @@ async def del_pfp(message: Message):
         await message.reply_sticker(sticker="CAADAQAD0wAD976IR_CYoqvCwXhyFgQ")
 
 
-@kannax.on_cmd("clone", about={
-    'header': "Clone first name, last name, bio and profile picture of any user",
-    'flags': {
-        '-fname': "Clone only first name",
-        '-lname': "Clone only last name",
-        '-bio': "Clone only bio",
-        '-pp': "Clone only profile picture"},
-    'usage': "{tr}clone [flag] [username | reply to any user]\n"
-             "{tr}clone [username | reply to any user]",
-    'examples': [
-        "{tr}clone -fname username", "{tr}clone -lname username",
-        "{tr}clone -pp username", "{tr}clone -bio username",
-        "{tr}clone username"],
-    'note': "<code>● Use revert after clone to get original profile</code>\n"
-            "<code>● Don't use @ while giving username</code>"}, allow_via_bot=False)
+@kannax.on_cmd(
+    "clone",
+    about={
+        "header": "Clone first name, last name, bio and profile picture of any user",
+        "flags": {
+            "-fname": "Clone only first name",
+            "-lname": "Clone only last name",
+            "-bio": "Clone only bio",
+            "-pp": "Clone only profile picture",
+        },
+        "usage": "{tr}clone [flag] [username | reply to any user]\n"
+        "{tr}clone [username | reply to any user]",
+        "examples": [
+            "{tr}clone -fname username",
+            "{tr}clone -lname username",
+            "{tr}clone -pp username",
+            "{tr}clone -bio username",
+            "{tr}clone username",
+        ],
+        "note": "<code>● Use revert after clone to get original profile</code>\n"
+        "<code>● Don't use @ while giving username</code>",
+    },
+    allow_via_bot=False,
+)
 async def clone_(message: Message):
-    """ Clone first name, last name, bio and profile picture """
+    """Clone first name, last name, bio and profile picture"""
     if message.reply_to_message:
         input_ = message.reply_to_message.from_user.id
     else:
@@ -378,29 +408,29 @@ async def clone_(message: Message):
         return
     me = await kannax.get_me()
 
-    if '-fname' in message.flags:
-        if 'first_name' in USER_DATA:
+    if "-fname" in message.flags:
+        if "first_name" in USER_DATA:
             await message.err("First Revert!...")
             return
-        USER_DATA['first_name'] = me.first_name or ''
-        await kannax.update_profile(first_name=user.first_name or '')
+        USER_DATA["first_name"] = me.first_name or ""
+        await kannax.update_profile(first_name=user.first_name or "")
         await message.edit("```First Name is Successfully cloned ...```", del_in=3)
-    elif '-lname' in message.flags:
-        if 'last_name' in USER_DATA:
+    elif "-lname" in message.flags:
+        if "last_name" in USER_DATA:
             await message.err("First Revert!...")
             return
-        USER_DATA['last_name'] = me.last_name or ''
-        await kannax.update_profile(last_name=user.last_name or '')
+        USER_DATA["last_name"] = me.last_name or ""
+        await kannax.update_profile(last_name=user.last_name or "")
         await message.edit("```Last name is successfully cloned ...```", del_in=3)
-    elif '-bio' in message.flags:
-        if 'bio' in USER_DATA:
+    elif "-bio" in message.flags:
+        if "bio" in USER_DATA:
             await message.err("First Revert!...")
             return
         mychat = await kannax.get_chat(me.id)
-        USER_DATA['bio'] = mychat.bio or ''
-        await kannax.update_profile(bio=chat.description or '')
+        USER_DATA["bio"] = mychat.bio or ""
+        await kannax.update_profile(bio=chat.description or "")
         await message.edit("```Bio is Successfully Cloned ...```", del_in=3)
-    elif '-pp' in message.flags:
+    elif "-pp" in message.flags:
         if os.path.exists(PHOTO):
             await message.err("First Revert!...")
             return
@@ -415,28 +445,35 @@ async def clone_(message: Message):
             await message.err("First Revert!...")
             return
         mychat = await kannax.get_chat(me.id)
-        USER_DATA.update({
-            'first_name': me.first_name or '',
-            'last_name': me.last_name or '',
-            'bio': mychat.description or ''})
+        USER_DATA.update(
+            {
+                "first_name": me.first_name or "",
+                "last_name": me.last_name or "",
+                "bio": mychat.description or "",
+            }
+        )
         await kannax.update_profile(
-            first_name=user.first_name or '',
-            last_name=user.last_name or '',
-            bio=chat.bio or '')
+            first_name=user.first_name or "",
+            last_name=user.last_name or "",
+            bio=chat.bio or "",
+        )
         if not user.photo:
             await message.edit(
-                "`User not have profile photo, Cloned Name and bio...`", del_in=5)
+                "`User not have profile photo, Cloned Name and bio...`", del_in=5
+            )
             return
         await kannax.download_media(user.photo.big_file_id, file_name=PHOTO)
         await kannax.set_profile_photo(photo=PHOTO)
         await message.edit("```Profile is Successfully Cloned ...```", del_in=3)
 
 
-@kannax.on_cmd("revert", about={
-    'header': "Returns original profile",
-    'usage': "{tr}revert"}, allow_via_bot=False)
+@kannax.on_cmd(
+    "revert",
+    about={"header": "Returns original profile", "usage": "{tr}revert"},
+    allow_via_bot=False,
+)
 async def revert_(message: Message):
-    """ Returns Original Profile """
+    """Returns Original Profile"""
     if not (USER_DATA or os.path.exists(PHOTO)):
         await message.err("Already Reverted!...")
         return

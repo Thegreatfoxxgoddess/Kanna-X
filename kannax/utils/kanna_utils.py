@@ -1,5 +1,5 @@
-
 from typing import Union
+
 from pyrogram.raw.functions.account import ReportPeer
 from pyrogram.raw.types import (
     InputPeerUserFromMessage,
@@ -140,17 +140,19 @@ def time_date_diff(year: int, month: int, date: int, hour: int, minute: int, dif
         return e
 
 
-async def get_response_(msg, filter_user: Union[int, str] = 0, timeout: int = 5, mark_read: bool = False):
+async def get_response_(
+    msg, filter_user: Union[int, str] = 0, timeout: int = 5, mark_read: bool = False
+):
     if filter_user:
         try:
             user_ = await kannax.get_users(filter_user)
-        except:
+        except BaseException:
             raise "Invalid user."
     for msg_ in range(1, 6):
         msg_id = msg.message_id + msg_
         try:
             response = await kannax.get_messages(msg.chat.id, msg_id)
-        except:
+        except BaseException:
             raise "No response found."
         if response.reply_to_message.message_id == msg.message_id:
             if filter_user:
@@ -162,13 +164,13 @@ async def get_response_(msg, filter_user: Union[int, str] = 0, timeout: int = 5,
                 if mark_read:
                     await kannax.send_read_acknowledge(msg.chat.id, response)
                 return response
-        
+
     raise "No response found in time limit."
- 
+
 
 def full_name(user: dict):
     try:
         f_name = " ".join([user.first_name, user.last_name or ""])
-    except:
+    except BaseException:
         raise
     return f_name

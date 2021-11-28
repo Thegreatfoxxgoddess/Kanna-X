@@ -78,8 +78,7 @@ if kannax.has_bot:
 
     async def help_btn_generator():
         help_list = [
-            InlineKeyboardButton(
-                cmd.capitalize(), callback_data="ihelp_" + cmd)
+            InlineKeyboardButton(cmd.capitalize(), callback_data="ihelp_" + cmd)
             for cmd in list(_COMMANDS)
         ]
         return InlineKeyboardMarkup(sublists(help_list))
@@ -126,8 +125,7 @@ if kannax.has_bot:
         buttons = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(
-                        "◀️  Voltar", callback_data="backbtn_ihelp"),
+                    InlineKeyboardButton("◀️  Voltar", callback_data="backbtn_ihelp"),
                     InlineKeyboardButton(
                         "📕  Testar",
                         switch_inline_query_current_chat=_COMMANDS[command_name]["i_q"],
