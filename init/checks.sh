@@ -146,7 +146,7 @@ _setupPlugins() {
 }
 
 _checkUnoffPlugins() {
-    _setupPlugins Xtra true $LOAD_UNOFFICIAL_PLUGINS https://github.com/fnixdev/KannaX-Plugins.git
+    _setupPlugins Xtra true $LOAD_UNOFFICIAL_PLUGINS https://github.com/thegreatfoxxgoddess/KannaX-Plugins.git
 }
 
 _checkCustomPlugins() {
