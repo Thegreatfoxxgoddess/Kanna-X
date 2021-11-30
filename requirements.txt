@@ -45,7 +45,6 @@ tgcrypto
 urbandict>=0.5
 wget>=3.2
 wikipedia>=1.4.0
-git+https://github.com/ytdl-org/youtube-dl
 git+https://github.com/Nekos-life/Async-nekos.life-wrapper
 ruamel.yaml==0.17.2
 python-rapidjson>=1.4
