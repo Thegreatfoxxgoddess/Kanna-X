@@ -1,8 +1,11 @@
 # image convert by @fnixdev
 
-from PIL import Image
-from kannax import kannax, Message, Config
 import os
+
+from PIL import Image
+
+from kannax import Message, kannax
+
 
 @kannax.on_cmd(
     "png",
@@ -23,11 +26,13 @@ async def convert_(message: Message):
         return await message.err("`Formato não suportado`")
     try:
         await message.edit("`Convertendo...`")
-        img = Image.open(media).convert('RGB')
-        img.save('converted.png', 'png')
+        img = Image.open(media).convert("RGB")
+        img.save("converted.png", "png")
         await message.delete()
         msg = "__Made by [KannaX](https://t.me/fnixsup)__"
-        await kannax.send_document(chat_id=message.chat.id, document="converted.png", caption=msg)
+        await kannax.send_document(
+            chat_id=message.chat.id, document="converted.png", caption=msg
+        )
     except Exception as e:
         return message.err(e)
     os.remove(media)
