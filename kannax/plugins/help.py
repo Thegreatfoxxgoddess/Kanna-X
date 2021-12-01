@@ -24,7 +24,7 @@ from kannax.core.ext import RawClient
 from kannax.utils import get_file_id, get_response
 from kannax.utils import parse_buttons as pb
 from kannax.utils import rand_key
-
+from .bot.gogo import Anime
 from .bot.alive import Bot_Alive
 from .bot.utube_inline import (
     download_button,
@@ -805,12 +805,12 @@ if kannax.has_bot:
                     notes = t.post(title="READ Notes", author="", text=notes_)
                     buttons = [
                         [
-                            InlineKeyboardButton("🗒️ NOTES", url=notes["url"]),
-                            InlineKeyboardButton("⬇️ DOWNLOAD", url=s["url"]),
+                            InlineKeyboardButton("NOTES", url=notes["url"]),
+                            InlineKeyboardButton("DOWNLOAD", url=s["url"]),
                         ]
                     ]
                 else:
-                    buttons = [[InlineKeyboardButton(text="⬇️ DOWNLOAD", url=s["url"])]]
+                    buttons = [[InlineKeyboardButton(text="DOWNLOAD", url=s["url"])]]
                 results.append(
                     InlineQueryResultPhoto(
                         photo_url=photo,
@@ -822,12 +822,71 @@ if kannax.has_bot:
                     )
                 )
 
+            if len(str_y) == 2 and str_y[0] == "anime":
+
+                for i in await Anime.search(str_y[1]):
+
+                    results.append(
+
+                        InlineQueryResultArticle(
+
+                            title=i.get("title"),
+
+                            input_message_content=InputTextMessageContent(
+
+                                f'[\u200c]({i.get("image")})**{i.get("title")}**\n{i.get("release")}'
+
+                            ),
+
+                            description=i.get("release"),
+
+                            thumb_url=i.get("image"),
+
+                            reply_markup=InlineKeyboardMarkup(
+
+                                [
+
+                                    [
+
+                                        InlineKeyboardButton(
+
+                                            text="Download",
+
+                                            callback_data=f'get_eps{i.get("key")}',
+
+                                        )
+
+                                    ]
+
+                                ]
+
+                            ),
+
+                        )
+
+                    )
+
+                if len(results) != 0:
+
+                    await inline_query.answer(
+
+                        results=results[:50],
+
+                        cache_time=1,
+
+                        switch_pm_text="Available Commands",
+
+                        switch_pm_parameter="inline",
+
+                    )
+
+                    return
             # REPO
             if string == "repo":
                 buttons = [
                     [
                         InlineKeyboardButton(
-                            "🔥 KannaX Repo", url="https://github.com/fnixdev/Kanna-X"
+                            "🔥 KannaX Repo", url="https://github.com/thegreatfoxxgoddess/Kanna-X"
                         ),
                         InlineKeyboardButton(
                             "🚀 Deploy Heroku",
