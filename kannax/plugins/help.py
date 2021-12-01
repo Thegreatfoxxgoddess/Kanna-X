@@ -24,8 +24,9 @@ from kannax.core.ext import RawClient
 from kannax.utils import get_file_id, get_response
 from kannax.utils import parse_buttons as pb
 from kannax.utils import rand_key
-from .bot.gogo import Anime
+
 from .bot.alive import Bot_Alive
+from .bot.gogo import Anime
 from .bot.utube_inline import (
     download_button,
     get_yt_video_id,
@@ -827,57 +828,33 @@ if kannax.has_bot:
                 for i in await Anime.search(str_y[1]):
 
                     results.append(
-
                         InlineQueryResultArticle(
-
                             title=i.get("title"),
-
                             input_message_content=InputTextMessageContent(
-
                                 f'[\u200c]({i.get("image")})**{i.get("title")}**\n{i.get("release")}'
-
                             ),
-
                             description=i.get("release"),
-
                             thumb_url=i.get("image"),
-
                             reply_markup=InlineKeyboardMarkup(
-
                                 [
-
                                     [
-
                                         InlineKeyboardButton(
-
                                             text="Download",
-
                                             callback_data=f'get_eps{i.get("key")}',
-
                                         )
-
                                     ]
-
                                 ]
-
                             ),
-
                         )
-
                     )
 
                 if len(results) != 0:
 
                     await inline_query.answer(
-
                         results=results[:50],
-
                         cache_time=1,
-
                         switch_pm_text="Available Commands",
-
                         switch_pm_parameter="inline",
-
                     )
 
                     return
@@ -886,7 +863,8 @@ if kannax.has_bot:
                 buttons = [
                     [
                         InlineKeyboardButton(
-                            "🔥 KannaX Repo", url="https://github.com/thegreatfoxxgoddess/Kanna-X"
+                            "🔥 KannaX Repo",
+                            url="https://github.com/thegreatfoxxgoddess/Kanna-X",
                         ),
                         InlineKeyboardButton(
                             "🚀 Deploy Heroku",
