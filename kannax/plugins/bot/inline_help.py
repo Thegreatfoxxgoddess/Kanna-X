@@ -1,6 +1,3 @@
-# Copyright (C) 2020 BY - GitHub.com/code-rgb [TG - @deleteduser420]
-# All rights reserved.
-
 """Module that handles Inline Help"""
 
 from asyncio import gather
@@ -17,14 +14,14 @@ OwnerFilter = filters.user(list(Config.OWNER_ID))
 _COMMANDS = {
     "secret": {
         "help_txt": "**Send a secret message to a user**\n (only the entered user and you can view the message)\n\n>>>  `secret @username [text]`",
-        "i_q": "secret @DeletedUser420 This is a secret message",
+        "i_q": "secret @eightbituwu This is a secret message",
     },
     "troll": {
         "help_txt": "**Troll to a user**\n (everyone can view the message except the entered user)\n\n>>>  `troll @username [text]`",
-        "i_q": "troll @Lostb053 Lostboy can view this message",
+        "i_q": "troll @eightbituwu Lostboy can view this message",
     },
     "alive": {
-        "help_txt": "**Alive Command for KannaX**\nHere You can view Uptime, Setting and Versions of your bot and when you change settings they are updated in Real-time UwU\n\n>>>  `alive`",
+        "help_txt": "**Alive Command for kannax-X**\nHere You can view Uptime, Setting and Versions of your bot and when you change settings they are updated in Real-time UwU\n\n>>>  `alive`",
         "i_q": "alive",
     },
     "opinion": {
@@ -32,11 +29,11 @@ _COMMANDS = {
         "i_q": "op Are Cats Cute ?",
     },
     "repo": {
-        "help_txt": "**Your KannaX Github repo**\nwith direct deploy button\n\n>>>  `repo`",
+        "help_txt": "**Your kannax-X Github repo**\nwith direct deploy button\n\n>>>  `repo`",
         "i_q": "repo",
     },
     "gapps": {
-        "help_txt": "**Lastest arm64 Gapps for <u>Android 11!</u>**\n\n>>>  `gapps`",
+        "help_txt": "**Lastest arm64 Gapps for <u>Android 10 Only !</u>**\nChoose from Niksgapps, Opengapps and Flamegapps\n\n>>>  `gapps`",
         "i_q": "gapps",
     },
     "ofox": {
@@ -53,7 +50,7 @@ _COMMANDS = {
     },
     "stylish": {
         "help_txt": "**Write it in Style**\nplugin to decorate text with unicode fonts.\n\n>>>  `stylish [text]`",
-        "i_q": "stylish KannaX",
+        "i_q": "stylish kannax-X",
     },
     "ytdl": {
         "help_txt": f"**Download YouTube Videos or Audio with Buttons**\nTo Download Video / Audio from youtube with desired quality.\n\n>>>  `ytdl [URL or Text]\n   Non-Inline: {Config.CMD_TRIGGER}iytdl [URL / Text] or [Reply to URL / Text]`",
@@ -67,9 +64,9 @@ _COMMANDS = {
         "help_txt": "**Get upto 15 of your most recently created inline messages in the inline query, so you can post it in any channel or group effortlessly**\n For Creating inline messages see `.help .ibutton`\n\n>>>  `btn`",
         "i_q": "btn",
     },
-    "fnix": {
-        "help_txt": "**Nada por aqui**\nVocê é curioso o suficiente pra isso?\n\n>>> `fnix'`",
-        "i_q": "fnix",
+    "anime": {
+        "help_txt": "**Anime Downloader**\nSearch Anime via inline bot and then choose episodes number and desired quality\n\n>>> `anime [Query]`",
+        "i_q": "anime Naruto",
     },
 }
 
@@ -90,8 +87,8 @@ if kannax.has_bot:
         return HELP_BUTTONS
 
     inline_help_txt = (
-        "<u><b>Comandos Inline</b></u>\n\nLista de comandos inline disponiveis."
-        "\nEscolha um comando para saber como usar:"
+        " <u><b>INLINE COMMANDS</b></u>\n\nHere is a list of all available inline commands."
+        "\nChoose a command and for usage see:\n**EXAMPLE**"
     )
 
     @kannax.bot.on_message(
@@ -125,9 +122,9 @@ if kannax.has_bot:
         buttons = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("◀️  Voltar", callback_data="backbtn_ihelp"),
+                    InlineKeyboardButton("Back", callback_data="backbtn_ihelp"),
                     InlineKeyboardButton(
-                        "📕  Testar",
+                        "EXAMPLE",
                         switch_inline_query_current_chat=_COMMANDS[command_name]["i_q"],
                     ),
                 ]
