@@ -1,4 +1,4 @@
-# Copyright (C) 2021 by KannaX
+# Copyright (C) 2021 by kannax-X
 #
 # Author: GitHub.com/code-rgb [TG - @deleteduser420]
 #
@@ -59,13 +59,15 @@ async def see_info(message: Message):
         with open(".git/HEAD", "r") as gitfile:
             branch = gitfile.read().split("/")[-1].strip()
     if branch == "master":
-        branch = "master"
+        branch = "alpha"
     plugin_name = kannax.manager.commands[cmd_str].plugin_name
     plugin_loc = ("/" + kannax.manager.plugins[plugin_name].parent).replace(
         "/plugins", ""
     )
     if plugin_loc == "/xtra":
-        extra_plugins = "https://github.com/fnixdev/KannaX-Plugins/blob/master/plugins/"
+        extra_plugins = (
+            "https://github.com/thegreatfoxxgoddess/kannax-Plugins/blob/master/plugins/"
+        )
         plugin_link = f"{extra_plugins}/{plugin_name}.py"
     elif plugin_loc == "/custom":
         custom_plugins = os.environ.get("CUSTOM_PLUGINS_REPO", "")
@@ -82,17 +84,17 @@ async def see_info(message: Message):
     result = f"""
 <b>•>  CMD:</b>  <code>{cmd_str}</code>
 
-📂  <b>Caminho :</b>  <code>{local_path}</code><pre>
-  - Tamanho: {f_size}
-  - N. de linhas: {search_path[0]}</pre>
+📂  <b>Path :</b>  <code>{local_path}</code><pre>
+  - Size on Disk: {f_size}
+  - No. of lines: {search_path[0]}</pre>
 """
     if plugin_link:
-        result += f"\n💻  <b>[Ver codigo no Github]({plugin_link})</b>"
+        result += f"\n💻  <b>[View Code on Github]({plugin_link})</b>"
     if word:
-        result += f"\n\n🔎  <b>Matches for:</b> {word}\n"
+        result += f"\n\n searching <b>Matches for:</b> {word}\n"
         s_result = ""
         if len(search_path[1]) == 0:
-            s_result += "  ❌  Not Found !"
+            s_result += " Not Found !"
         else:
             for line_c, line in enumerate(search_path[1], start=1):
                 s_result += f"[#L{line}]({plugin_link}#L{line})  "
@@ -101,7 +103,7 @@ async def see_info(message: Message):
         result += "  <b>{}</b>".format(s_result)
     buttons = (
         InlineKeyboardMarkup(
-            [[InlineKeyboardButton("📤  Upload", callback_data="plugin_upload")]]
+            [[InlineKeyboardButton("Upload", callback_data="plugin_upload")]]
         )
         if message.client.is_bot
         else None
@@ -129,7 +131,7 @@ if kannax.has_bot:
         if match := plugin_regex.search(c_q.message.text):
             if os.path.exists(plugin_loc := match.group(1)):
                 p_name = plugin_loc.split("/")[-1]
-                await c_q.answer(f"📤  Uploading - {p_name}")
+                await c_q.answer(f"Uploading - {p_name}")
                 await kannax.bot.send_chat_action(
                     c_q.message.chat.id, "upload_document"
                 )
@@ -142,6 +144,6 @@ if kannax.has_bot:
                     reply_to_message_id=c_q.message.message_id,
                 )
             else:
-                await c_q.answer("❌ ERROR: Plugin Not Found !")
+                await c_q.answer("ERROR: Plugin Not Found !")
         else:
             await c_q.answer()
