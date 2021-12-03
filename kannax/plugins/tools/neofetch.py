@@ -47,7 +47,7 @@ async def neo_image():
         base_pic = "https://i.imgur.com/iBJxExq.jpg"
         font_color = (87, 157, 255)  # Blue
     else:
-        base_pic = "https://telegra.ph/file/f3191b7ecdf13867788c2.jpg"
+        base_pic = "https://telegra.ph/file/b1798d566cf1316403348.jpg"
     font_url = (
         "https://raw.githubusercontent.com/code-rgb/AmongUs/master/FiraCode-Regular.ttf"
     )
