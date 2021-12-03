@@ -59,7 +59,7 @@ async def see_info(message: Message):
         with open(".git/HEAD", "r") as gitfile:
             branch = gitfile.read().split("/")[-1].strip()
     if branch == "master":
-        branch = "alpha"
+        branch = "master"
     plugin_name = kannax.manager.commands[cmd_str].plugin_name
     plugin_loc = ("/" + kannax.manager.plugins[plugin_name].parent).replace(
         "/plugins", ""
@@ -89,7 +89,7 @@ async def see_info(message: Message):
   - No. of lines: {search_path[0]}</pre>
 """
     if plugin_link:
-        result += f"\n💻  <b>[View Code on Github]({plugin_link})</b>"
+        result += f"\n<b>[View Code on Github]({plugin_link})</b>"
     if word:
         result += f"\n\n searching <b>Matches for:</b> {word}\n"
         s_result = ""
