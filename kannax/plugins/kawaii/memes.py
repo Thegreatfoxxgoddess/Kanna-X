@@ -11,6 +11,7 @@ import random
 import requests
 import wget
 from cowpy import cow
+from random import randint, choice
 
 from kannax import Message, kannax
 
@@ -559,3 +560,91 @@ async def kill_func(message):
     for i in range(10):
         await asyncio.sleep(0.6)
         await message.edit(animation_chars[i % 10], parse_mode="html")
+
+
+
+@kannax.on_cmd("sexo", about={"header": "sexoooooooooooo"})
+async def snake_(message: Message):
+    """muito sexo"""
+    out = f"""
+
+HOLY SHIT!!
+"""
+
+    out2 = f"""
+        IS THAT A 
+MOTHERFUCKING
+
+█▀▀ █▀▀ █─█ █▀▀█ 
+▀▀█ █▀▀ ▄▀▄ █──█ 
+▀▀▀ ▀▀▀ ▀─▀ ▀▀▀▀
+
+           REFERENCE???
+
+"""
+    out3 = f"""
+Perai...é aqui que estão falando de...
+"""
+
+    out4 = f"""
+KKKKKKKKKK
+KKKKKKKKKK
+KKKK
+KKKK
+KKKKKKKKKK
+KKKKKKKKKK
+               KKKK
+               KKKK
+KKKKKKKKKK
+KKKKKKKKKK
+
+KKKKKKKKKK
+KKKKKKKKKK
+KKKK
+KKKK
+KKKKKKKKKK
+KKKKKKKKKK
+KKKK
+KKKK
+KKKKKKKKKK
+KKKKKKKKKK
+
+KKKK       KKKK
+ KKKK    KKKK
+   KKKK KKKK
+      KKKKKK
+      KKKKKK
+      KKKKKK
+  KKKK     KKKK
+KKKK        KKKK
+
+KKKKKKKKKK
+KKKKKKKKKK
+KKKK     KKKK
+KKKK     KKKK
+KKKK     KKKK
+KKKK     KKKK
+KKKKKKKKKK
+KKKKKKKKKK
+
+  KKKKKKKK
+KKKKKKKKKK
+KKK        KKK
+              KKK
+            KKK
+          KKK
+        KKK
+      KKK  
+      KKK   
+    
+      KKK
+      KKK
+
+"""
+    await message.edit(out)
+    await asyncio.sleep(3)
+    await message.edit(out2)
+    await asyncio.sleep(3)
+    await message.edit(out3)
+    await asyncio.sleep(3)
+    await message.edit(out4)
