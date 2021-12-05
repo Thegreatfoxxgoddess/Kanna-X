@@ -2,15 +2,17 @@
 
 """novo alive para kannax"""
 
-from kannax import Message, get_collection, kannax, get_version
-from kannax.utils import rand_array
-from kannax.plugins.bot.ialive import Bot_Alive 
-from kannax.versions import __python_version__
 from telegraph import upload_file
+
+from kannax import Message, get_collection, get_version, kannax
+from kannax.plugins.bot.ialive import Bot_Alive
+from kannax.utils import rand_array
+from kannax.versions import __python_version__
 
 SAVED = get_collection("ALIVE_DB")
 
 ALIVE_MSG = {}
+
 
 async def _init():
     global ALIVE_MEDIA, ALIVE_MSG  # pylint: disable=global-statement
@@ -43,7 +45,7 @@ async def ani_save_media_alive(message: Message):
         await message.edit("`Alive Media definida com sucesso!`", del_in=5, log=True)
     elif query:
         await SAVED.update_one(
-                        {"_id": "ALIVE_MEDIA"}, {"$set": {"link": query}}, upsert=True
+            {"_id": "ALIVE_MEDIA"}, {"$set": {"link": query}}, upsert=True
         )
         await message.edit("`Alive Media definida com sucesso!`", del_in=5, log=True)
     else:
@@ -61,12 +63,16 @@ async def save_msg_alive(message: Message):
     """set alive msg"""
     rep = message.input_or_reply_str
     if not rep:
-        return await message.edit("`Você precisa digitar ou responder a uma mensagem pra salva-la`", del_in=6)
+        return await message.edit(
+            "`Você precisa digitar ou responder a uma mensagem pra salva-la`", del_in=6
+        )
     if rep:
         await SAVED.update_one(
             {"_id": "ALIVE_MSG"}, {"$set": {"data": rep}}, upsert=True
         )
-        await message.edit("`Mensagem para alive definida com sucesso!`", del_in=5, log=True)
+        await message.edit(
+            "`Mensagem para alive definida com sucesso!`", del_in=5, log=True
+        )
     else:
         await message.err("Invalid Syntax")
 
@@ -103,9 +109,7 @@ async def view_del_ani(message: Message):
 """
     if media.endswith((".gif", ".mp4")):
         await message.client.send_animation(
-            chat_id=message.chat.id,
-            animation=media,
-            caption=alive_msg
+            chat_id=message.chat.id, animation=media, caption=alive_msg
         )
     else:
         await message.client.send_photo(
@@ -119,7 +123,7 @@ async def view_del_ani(message: Message):
     about={
         "header": "Delete alive message",
         "description": "Retorna a mensagem de Alive「 para o padrão",
-      },
+    },
 )
 async def del_a_msg(message: Message):
     """del msg alive"""
@@ -129,7 +133,7 @@ async def del_a_msg(message: Message):
     else:
         await SAVED.find_one_and_delete({"_id": "ALIVE_MSG"})
         await message.edit("`Alive msg excluida`", del_in=5, log=True)
- 
+
 
 FRASES = (
     "ʟᴇᴍʙʀᴇ-sᴇ ᴅᴀ ʟɪᴄ̧ᴀ̃ᴏ ᴇ ɴᴀ̃ᴏ ᴅᴀ ᴅᴇᴄᴇᴘᴄ̧ᴀ̃ᴏ.",

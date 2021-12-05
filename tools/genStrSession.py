@@ -4,11 +4,8 @@
 #
 # Editado por fnixdev
 
-import os
-import asyncio
 
 from pyrogram import Client
-from dotenv import load_dotenv
 
 API_KEY = int(input("Enter API_ID: "))
 API_HASH = input("Enter API_HASH: ")

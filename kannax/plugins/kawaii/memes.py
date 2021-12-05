@@ -7,11 +7,11 @@ import datetime
 import math
 import os
 import random
+from random import choice, randint
 
 import requests
 import wget
 from cowpy import cow
-from random import randint, choice
 
 from kannax import Message, kannax
 
@@ -562,7 +562,6 @@ async def kill_func(message):
         await message.edit(animation_chars[i % 10], parse_mode="html")
 
 
-
 @kannax.on_cmd("sexo", about={"header": "sexoooooooooooo"})
 async def snake_(message: Message):
     """muito sexo"""
@@ -572,11 +571,11 @@ HOLY SHIT!!
 """
 
     out2 = f"""
-        IS THAT A 
+        IS THAT A
 MOTHERFUCKING
 
-█▀▀ █▀▀ █─█ █▀▀█ 
-▀▀█ █▀▀ ▄▀▄ █──█ 
+█▀▀ █▀▀ █─█ █▀▀█
+▀▀█ █▀▀ ▄▀▄ █──█
 ▀▀▀ ▀▀▀ ▀─▀ ▀▀▀▀
 
            REFERENCE???
@@ -634,9 +633,9 @@ KKK        KKK
             KKK
           KKK
         KKK
-      KKK  
-      KKK   
-    
+      KKK
+      KKK
+
       KKK
       KKK
 
