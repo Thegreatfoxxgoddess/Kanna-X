@@ -26,7 +26,6 @@ SAVED = get_collection("ALIVE_DB")
 
 LOGGER = kannax.getLogger(__name__)
 
-
 async def _init() -> None:
     global _USER_CACHED_MEDIA, _BOT_CACHED_MEDIA, ALIVE_MSG
     _AliveMsg = await SAVED.find_one({"_id": "CUSTOM_MSG"})
@@ -70,20 +69,20 @@ async def set_alive_media(message: Message):
             media_ = found["url"]
         else:
             media_ = "https://telegra.ph/file/4e956ef52c931570fb110.png"
-        return await message.edit(f"[<b>Esta</b>]({media_}) is your current alive media")
+        return await message.edit(f"[<b>Esta</b>]({media_}) é sua Alive Media atual")
     elif "-r" in message.flags:
         if not found:
-            return await message.edit("`No media has been defined yet.`", del_in=5)
+            return await message.edit("`Nenhuma Media foi definida ainda.`", del_in=5)
         await SAVED_SETTINGS.delete_one({"_id": "ALIVE_MEDIA"})
-        return await message.edit("`Alive Media defined for the standard.`", del_in=5)
+        return await message.edit("`Alive Media definida para o padrão.`", del_in=5)
     reply_ = message.reply_to_message
     if not reply_:
         return await message.edit(
-            ("`Reply to some Media to set it as Alive.`", del_in=5)
+            "`Responda a alguma Media para defini-la como seu Alive.`", del_in=5
         )
     type_ = msg_type_alive(reply_)
     if type_ not in ["gif", "photo", "video"]:
-        return await message.edit("`Format Not Supported`", del_in=5)
+        return await message.edit("`Formato não suportado.`", del_in=5)
     link_ = await upload_media_(message)
     whole_link = f"https://telegra.ph{link_}"
     await SAVED_SETTINGS.update_one(
@@ -93,7 +92,7 @@ async def set_alive_media(message: Message):
         {"_id": "ALIVE_MEDIA"}, {"$set": {"type": type_}}, upsert=True
     )
     await message.edit(
-        f"`Alive media defined.The Bot is restarting wait 5 seconds ...`"
+        f"`Alive media definida. O bot esta reiniciando aguarde 5 segundos...`"
     )
     asyncio.get_event_loop().create_task(kannax.restart())
 
@@ -170,6 +169,7 @@ if kannax.has_bot:
         )
         return status_alive_
 
+
     @kannax.bot.on_callback_query(filters.regex(pattern=r"^settings_btn$"))
     async def alive_cb(_, c_q: CallbackQuery):
         allow = bool(
@@ -191,17 +191,17 @@ if kannax.has_bot:
                 await asyncio.sleep(e.x)
             except BadRequest:
                 pass
-            ping = "ara ara: {} ms\n"
-        alive_s = "Plugins + : {}\n".format(
+            ping = "🏓 ᴘɪɴɢ : {} ᴍs\n"
+        alive_s = "➕ ᴘʟᴜɢɪɴs + : {}\n".format(
             _parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)
         )
-        alive_s += f"ANTISPAM : {_parse_arg(Config.SUDO_ENABLED)}\n"
-        alive_s += f"ANTISPAM : {_parse_arg(Config.ANTISPAM_SENTRY)}\n"
+        alive_s += f"👥 ᴀɴᴛɪsᴘᴀᴍ : {_parse_arg(Config.SUDO_ENABLED)}\n"
+        alive_s += f"🚨 ᴀɴᴛɪsᴘᴀᴍ : {_parse_arg(Config.ANTISPAM_SENTRY)}\n"
         if Config.HEROKU_APP and Config.RUN_DYNO_SAVER:
-            alive_s += "DYNO :  ACTIVATED\n"
-        alive_s += f"BOT FORWARD : {_parse_arg(Config.BOT_FORWARDS)}\n"
-        alive_s += f"PM BLOCK : {_parse_arg(not Config.ALLOW_ALL_PMS)}\n"
-        alive_s += f"LOG PM : {_parse_arg(Config.PM_LOGGING)}"
+            alive_s += "⛽️ ᴅʏɴᴏ :  ✅ ᴀᴛɪᴠᴀᴅᴏ\n"
+        alive_s += f"💬 ʙᴏᴛ ꜰᴡᴅ : {_parse_arg(Config.BOT_FORWARDS)}\n"
+        alive_s += f"🛡 ᴘᴍ ʙʟᴏᴄᴋ : {_parse_arg(not Config.ALLOW_ALL_PMS)}\n"
+        alive_s += f"📝 ʟᴏɢ ᴘᴍ : {_parse_arg(Config.PM_LOGGING)}"
         if allow:
             end = datetime.now()
             m_s = (end - start).microseconds / 1000
@@ -212,7 +212,7 @@ if kannax.has_bot:
 
 
 def _parse_arg(arg: bool) -> str:
-    return " ACTIVATED" if arg else "DEACTIVATED"
+    return " ✅ ᴀᴛɪᴠᴀᴅᴏ" if arg else " ❎ ᴅᴇsᴀᴛɪᴠᴀᴅᴏ"
 
 
 class Bot_Alive:
@@ -269,7 +269,7 @@ class Bot_Alive:
             ],
             [
                 InlineKeyboardButton(text="✨  ᴜᴘᴅᴀᴛᴇs", url="t.me/kannaxup"),
-            ],
+            ]
         ]
         return InlineKeyboardMarkup(buttons)
 
@@ -293,7 +293,6 @@ class Bot_Alive:
     @staticmethod
     def is_photo(file_id: str) -> bool:
         return bool(FileId.decode(file_id).file_type in PHOTO_TYPES)
-
 
 FRASES = (
     "ʟᴇᴍʙʀᴇ-sᴇ ᴅᴀ ʟɪᴄ̧ᴀ̃ᴏ ᴇ ɴᴀ̃ᴏ ᴅᴀ ᴅᴇᴄᴇᴘᴄ̧ᴀ̃ᴏ.",
