@@ -4,13 +4,16 @@ import asyncio
 from datetime import datetime
 from re import compile as comp_regex
 
+from pyrogram import __version__ as __pyro_version__
 from pyrogram import filters
 from pyrogram.errors import BadRequest, FloodWait, Forbidden, MediaEmpty
 from pyrogram.file_id import PHOTO_TYPES, FileId
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
-from kannax import Config, Message, get_version, kannax
+from kannax import Config, Message, get_version, kannax, get_collection
 from kannax.core.ext import RawClient
+from kannax.versions import __python_version__
+from kannax.plugins.utils.telegraph import upload_media_
 from kannax.utils import get_file_id, rand_array
 
 _ALIVE_REGEX = comp_regex(
@@ -18,11 +21,17 @@ _ALIVE_REGEX = comp_regex(
 )
 _USER_CACHED_MEDIA, _BOT_CACHED_MEDIA = None, None
 
+SAVED_SETTINGS = get_collection("CONFIGS")
+SAVED = get_collection("ALIVE_DB")
+
 LOGGER = kannax.getLogger(__name__)
 
 
 async def _init() -> None:
-    global _USER_CACHED_MEDIA, _BOT_CACHED_MEDIA
+    global _USER_CACHED_MEDIA, _BOT_CACHED_MEDIA, ALIVE_MSG
+    _AliveMsg = await SAVED.find_one({"_id": "CUSTOM_MSG"})
+    if _AliveMsg:
+        ALIVE_MSG = _AliveMsg["data"]
     if Config.ALIVE_MEDIA and Config.ALIVE_MEDIA.lower() != "false":
         am_type, am_link = await Bot_Alive.check_media_link(Config.ALIVE_MEDIA.strip())
         if am_type and am_type == "tg_media":
@@ -41,6 +50,52 @@ async def _init() -> None:
             except Exception as b_rr:
                 LOGGER.debug(b_rr)
 
+
+@kannax.on_cmd(
+    "setimedia",
+    about={
+        "header": "set alive media",
+        "flags": {
+            "-c": "check alive media.",
+            "-r": "reset alive media.",
+        },
+        "usage": "{tr}setimedia [reply media]",
+    },
+)
+async def set_alive_media(message: Message):
+    """set alive media"""
+    found = await SAVED_SETTINGS.find_one({"_id": "ALIVE_MEDIA"})
+    if "-c" in message.flags:
+        if found:
+            media_ = found["url"]
+        else:
+            media_ = "https://telegra.ph/file/4e956ef52c931570fb110.png"
+        return await message.edit(f"[<b>Esta</b>]({media_}) is your current alive media")
+    elif "-r" in message.flags:
+        if not found:
+            return await message.edit("`No media has been defined yet.`", del_in=5)
+        await SAVED_SETTINGS.delete_one({"_id": "ALIVE_MEDIA"})
+        return await message.edit("`Alive Media defined for the standard.`", del_in=5)
+    reply_ = message.reply_to_message
+    if not reply_:
+        return await message.edit(
+            ("`Reply to some Media to set it as Alive.`", del_in=5)
+        )
+    type_ = msg_type_alive(reply_)
+    if type_ not in ["gif", "photo", "video"]:
+        return await message.edit("`Format Not Supported`", del_in=5)
+    link_ = await upload_media_(message)
+    whole_link = f"https://telegra.ph{link_}"
+    await SAVED_SETTINGS.update_one(
+        {"_id": "ALIVE_MEDIA"}, {"$set": {"url": whole_link}}, upsert=True
+    )
+    await SAVED_SETTINGS.update_one(
+        {"_id": "ALIVE_MEDIA"}, {"$set": {"type": type_}}, upsert=True
+    )
+    await message.edit(
+        f"`Alive media defined.The Bot is restarting wait 5 seconds ...`"
+    )
+    asyncio.get_event_loop().create_task(kannax.restart())
 
 @kannax.on_cmd("alive", about={"header": "Just For Fun"}, allow_channels=False)
 async def alive_inline(message: Message):
@@ -80,79 +135,24 @@ async def send_inline_alive(message: Message) -> None:
     await asyncio.sleep(200)
     await kannax.delete_messages(message.chat.id, i_res_id)
 
-
-async def send_alive_message(message: Message) -> None:
-    global _USER_CACHED_MEDIA, _BOT_CACHED_MEDIA
-    chat_id = message.chat.id
-    client = message.client
-    caption = Bot_Alive.alive_info()
-    if client.is_bot:
-        reply_markup = Bot_Alive.alive_buttons()
-        file_id = _BOT_CACHED_MEDIA
-    else:
-        reply_markup = None
-        file_id = _USER_CACHED_MEDIA
-        caption += (
-            f"\n⚡️  <a href={Config.UPSTREAM_REPO}><b>ʀᴇᴘᴏꜱɪᴛᴏʀɪᴏ</b></a>"
-            "    <code>|</code>    "
-            "👥  <a href='https://t.me/fnixdev'><b>ꜱᴜᴘᴏʀᴛᴇ</b></a>"
-        )
-    if not Config.ALIVE_MEDIA:
-        await client.send_animation(
-            chat_id,
-            animation=Bot_Alive.alive_default_imgs(),
-            caption=caption,
-            reply_markup=reply_markup,
-        )
-        return
-    url_ = Config.ALIVE_MEDIA.strip()
-    if url_.lower() == "false":
-        await client.send_message(
-            chat_id,
-            caption=caption,
-            reply_markup=reply_markup,
-            disable_web_page_preview=True,
-        )
-    else:
-        type_, media_ = await Bot_Alive.check_media_link(Config.ALIVE_MEDIA)
-        if type_ == "url_gif":
-            await client.send_animation(
-                chat_id,
-                animation=url_,
-                caption=caption,
-                reply_markup=reply_markup,
-            )
-        elif type_ == "url_image":
-            await client.send_photo(
-                chat_id,
-                photo=url_,
-                caption=caption,
-                reply_markup=reply_markup,
-            )
-        elif type_ == "tg_media":
-            try:
-                await client.send_cached_media(
-                    chat_id,
-                    file_id=file_id,
-                    caption=caption,
-                    reply_markup=reply_markup,
-                )
-            except MediaEmpty:
-                if not message.client.is_bot:
-                    try:
-                        refeshed_f_id = get_file_id(
-                            await kannax.get_messages(media_[0], media_[1])
-                        )
-                        await kannax.send_cached_media(
-                            chat_id,
-                            file_id=refeshed_f_id,
-                            caption=caption,
-                        )
-                    except Exception as u_err:
-                        LOGGER.error(u_err)
-                    else:
-                        _USER_CACHED_MEDIA = refeshed_f_id
-
+def msg_type_alive(message):
+    type_ = "text"
+    if message.audio:
+        type_ = "audio"
+    elif message.animation:
+        type_ = "gif"
+    elif message.photo:
+        type_ = "photo"
+    elif message.sticker:
+        type_ = "sticker"
+    elif message.video:
+        type_ = "video"
+    elif message.document.file_name.endswith((".gif", ".mp4", "webm")):
+        type_ = "gif"
+    elif message.document.file_name.endswith((".jpeg", ".png", ".jpg", "webp")):
+        type_ = "photo"
+    return type_
+    
 
 if kannax.has_bot:
 
@@ -160,8 +160,13 @@ if kannax.has_bot:
     async def status_alive_(_, c_q: CallbackQuery):
         c_q.from_user.id
         await c_q.answer(
-            f"▫️ ᴍᴏᴅᴏ :  {Bot_Alive._get_mode()}\n▫️ ᴠᴇʀsɪᴏɴ  :  v{get_version()}\n▫️ ᴜᴘᴛɪᴍᴇ  :  {kannax.uptime}\n\n{rand_array(FRASES)}",
-            show_alert=True,
+            f"""
+▫️ Modo :  {Bot_Alive._get_mode()}
+▫️ Uptime  :  {kannax.uptime}
+▫️ Python  :  v{__python_version__}
+▫️ Version  :  v{get_version()}
+▫️ Pyrogram  :  v{__pyro_version__}
+""", show_alert=True,
         )
         return status_alive_
 
@@ -186,17 +191,17 @@ if kannax.has_bot:
                 await asyncio.sleep(e.x)
             except BadRequest:
                 pass
-            ping = "🏓 ᴘɪɴɢ : {} ᴍs\n"
-        alive_s = "➕ ᴘʟᴜɢɪɴs + : {}\n".format(
+            ping = "ara ara: {} ms\n"
+        alive_s = "Plugins + : {}\n".format(
             _parse_arg(Config.LOAD_UNOFFICIAL_PLUGINS)
         )
-        alive_s += f"👥 ᴀɴᴛɪsᴘᴀᴍ : {_parse_arg(Config.SUDO_ENABLED)}\n"
-        alive_s += f"🚨 ᴀɴᴛɪsᴘᴀᴍ : {_parse_arg(Config.ANTISPAM_SENTRY)}\n"
+        alive_s += f"ANTISPAM : {_parse_arg(Config.SUDO_ENABLED)}\n"
+        alive_s += f"ANTISPAM : {_parse_arg(Config.ANTISPAM_SENTRY)}\n"
         if Config.HEROKU_APP and Config.RUN_DYNO_SAVER:
-            alive_s += "⛽️ ᴅʏɴᴏ :  ✅ ᴀᴛɪᴠᴀᴅᴏ\n"
-        alive_s += f"💬 ʙᴏᴛ ꜰᴡᴅ : {_parse_arg(Config.BOT_FORWARDS)}\n"
-        alive_s += f"🛡 ᴘᴍ ʙʟᴏᴄᴋ : {_parse_arg(not Config.ALLOW_ALL_PMS)}\n"
-        alive_s += f"📝 ʟᴏɢ ᴘᴍ : {_parse_arg(Config.PM_LOGGING)}"
+            alive_s += "DYNO :  ACTIVATED\n"
+        alive_s += f"BOT FORWARD : {_parse_arg(Config.BOT_FORWARDS)}\n"
+        alive_s += f"PM BLOCK : {_parse_arg(not Config.ALLOW_ALL_PMS)}\n"
+        alive_s += f"LOG PM : {_parse_arg(Config.PM_LOGGING)}"
         if allow:
             end = datetime.now()
             m_s = (end - start).microseconds / 1000
@@ -207,7 +212,7 @@ if kannax.has_bot:
 
 
 def _parse_arg(arg: bool) -> str:
-    return " ✅ ᴀᴛɪᴠᴀᴅᴏ" if arg else " ❎ ᴅᴇsᴀᴛɪᴠᴀᴅᴏ"
+    return " ACTIVATED" if arg else "DEACTIVATED"
 
 
 class Bot_Alive:
@@ -234,9 +239,16 @@ class Bot_Alive:
         return link_type, link
 
     @staticmethod
-    def alive_info() -> str:
+    async def alive_info() -> str:
+        _findamsg = await SAVED.find_one({"_id": "ALIVE_MSG"})
+        if _findamsg is None:
+            mmsg = rand_array(FRASES)
+        else:
+            mmsg = _findamsg.get("data")
         alive_info_ = f"""
 ᴏɪ ᴍᴇsᴛʀᴇ, ᴋᴀɴɴᴀx ɪ'ᴛs ᴀʟɪᴠᴇ
+
+{mmsg}
 """
         return alive_info_
 
