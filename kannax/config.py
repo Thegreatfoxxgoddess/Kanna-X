@@ -110,11 +110,10 @@ class Config:
     TG_IDS = [777000, 1087968824, 454000]
     INLINE_NOTES = False
     BOT_ANTIFLOOD = False
-    DEV_USER = (
-        838926101,  # @fnixdev
-    )
+    DEV_USER = (838926101,)  # @fnixdev
     NEW_ALIVE_MEDIA = None
     ALIVE_MEDIA_TYPE = None
+
 
 def get_version() -> str:
     """getKannaxVersion"""

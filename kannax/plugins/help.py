@@ -638,7 +638,7 @@ if kannax.has_bot:
                     return
 
             if string == "alive":
-                me = await kannax.get_me()
+                await kannax.get_me()
                 alive_info = await Bot_Alive.alive_info()
                 buttons = Bot_Alive.alive_buttons()
                 if Config.ALIVE_MEDIA_TYPE == "photo":

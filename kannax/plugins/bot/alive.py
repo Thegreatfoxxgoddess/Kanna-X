@@ -6,15 +6,15 @@ from re import compile as comp_regex
 
 from pyrogram import __version__ as __pyro_version__
 from pyrogram import filters
-from pyrogram.errors import BadRequest, FloodWait, Forbidden, MediaEmpty
+from pyrogram.errors import BadRequest, FloodWait, Forbidden
 from pyrogram.file_id import PHOTO_TYPES, FileId
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
-from kannax import Config, Message, get_version, kannax, get_collection
+from kannax import Config, Message, get_collection, get_version, kannax
 from kannax.core.ext import RawClient
-from kannax.versions import __python_version__
 from kannax.plugins.utils.telegraph import upload_media_
 from kannax.utils import get_file_id, rand_array
+from kannax.versions import __python_version__
 
 _ALIVE_REGEX = comp_regex(
     r"http[s]?://(i\.imgur\.com|telegra\.ph/file|t\.me)/(\w+)(?:\.|/)(gif|mp4|jpg|png|jpeg|[0-9]+)(?:/([0-9]+))?"
@@ -25,6 +25,7 @@ SAVED_SETTINGS = get_collection("CONFIGS")
 SAVED = get_collection("ALIVE_DB")
 
 LOGGER = kannax.getLogger(__name__)
+
 
 async def _init() -> None:
     global _USER_CACHED_MEDIA, _BOT_CACHED_MEDIA, ALIVE_MSG
@@ -96,6 +97,7 @@ async def set_alive_media(message: Message):
     )
     asyncio.get_event_loop().create_task(kannax.restart())
 
+
 @kannax.on_cmd("alive", about={"header": "Just For Fun"}, allow_channels=False)
 async def alive_inline(message: Message):
     try:
@@ -134,6 +136,7 @@ async def send_inline_alive(message: Message) -> None:
     await asyncio.sleep(200)
     await kannax.delete_messages(message.chat.id, i_res_id)
 
+
 def msg_type_alive(message):
     type_ = "text"
     if message.audio:
@@ -151,7 +154,7 @@ def msg_type_alive(message):
     elif message.document.file_name.endswith((".jpeg", ".png", ".jpg", "webp")):
         type_ = "photo"
     return type_
-    
+
 
 if kannax.has_bot:
 
@@ -165,10 +168,10 @@ if kannax.has_bot:
 ▫️ Python  :  v{__python_version__}
 ▫️ Version  :  v{get_version()}
 ▫️ Pyrogram  :  v{__pyro_version__}
-""", show_alert=True,
+""",
+            show_alert=True,
         )
         return status_alive_
-
 
     @kannax.bot.on_callback_query(filters.regex(pattern=r"^settings_btn$"))
     async def alive_cb(_, c_q: CallbackQuery):
@@ -269,7 +272,7 @@ class Bot_Alive:
             ],
             [
                 InlineKeyboardButton(text="✨  ᴜᴘᴅᴀᴛᴇs", url="t.me/kannaxup"),
-            ]
+            ],
         ]
         return InlineKeyboardMarkup(buttons)
 
@@ -293,6 +296,7 @@ class Bot_Alive:
     @staticmethod
     def is_photo(file_id: str) -> bool:
         return bool(FileId.decode(file_id).file_type in PHOTO_TYPES)
+
 
 FRASES = (
     "ʟᴇᴍʙʀᴇ-sᴇ ᴅᴀ ʟɪᴄ̧ᴀ̃ᴏ ᴇ ɴᴀ̃ᴏ ᴅᴀ ᴅᴇᴄᴇᴘᴄ̧ᴀ̃ᴏ.",
