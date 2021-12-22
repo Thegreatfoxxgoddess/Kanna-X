@@ -1,11 +1,8 @@
 import os
 import re
-import requests
-import base64
-
 from math import ceil
 from typing import Any, Callable, Dict, List, Union
-from random import choice
+
 import ujson
 from html_telegraph_poster import TelegraphPoster
 from pyrogram import filters
@@ -1061,7 +1058,6 @@ if kannax.has_bot:
                     switch_pm_parameter="inline",
                 )
                 return
-
 
             if str_x[0].lower() in ["secret", "troll"] and len(str_x) == 3:
                 user_name = str_x[1]
