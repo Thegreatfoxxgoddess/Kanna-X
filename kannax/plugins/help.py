@@ -1,11 +1,8 @@
 import os
 import re
-import requests
-import base64
-
 from math import ceil
 from typing import Any, Callable, Dict, List, Union
-from random import choice
+
 import ujson
 from html_telegraph_poster import TelegraphPoster
 from pyrogram import filters
@@ -1101,9 +1098,7 @@ if kannax.has_bot:
                     thumb_img = "https://telegra.ph/file/8db040d03e6c5ba2cfd08.png"
                 else:
                     c_data = f"troll_{key_}"
-                    i_m_content = (
-                        f"Only <b>{r_name}</b> can't see this message. UwU"
-                    )
+                    i_m_content = f"Only <b>{r_name}</b> can't see this message. UwU"
                     i_l_des = f"Hidden Message from {r_name}"
                     title = "Troll"
                     thumb_img = "https://i.imgur.com/0vg5B0A.png"
