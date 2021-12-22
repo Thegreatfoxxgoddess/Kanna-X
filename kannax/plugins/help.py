@@ -1,8 +1,11 @@
 import os
 import re
+import requests
+import base64
+
 from math import ceil
 from typing import Any, Callable, Dict, List, Union
-
+from random import choice
 import ujson
 from html_telegraph_poster import TelegraphPoster
 from pyrogram import filters
@@ -1092,19 +1095,19 @@ if kannax.has_bot:
                     ujson.dump(view_data, r, indent=4)
                 if str_x[0].lower() == "secret":
                     c_data = f"secret_{key_}"
-                    i_m_content = f"📩 <b>Mensagem Secreta</b> para <b>{r_name}</b>. Só ele/ela pode abrir."
-                    i_l_des = f"Enviar mensagem secreta para: {r_name}"
-                    title = "Enviar mensagem secreta"
+                    i_m_content = f"<b>Secret message</b> for <b>{r_name}</b>. Only he/she can open."
+                    i_l_des = f"Send secret message to: {r_name}"
+                    title = "Send secret message"
                     thumb_img = "https://telegra.ph/file/8db040d03e6c5ba2cfd08.png"
                 else:
                     c_data = f"troll_{key_}"
                     i_m_content = (
-                        f"😈 Apenas <b>{r_name}</b> não pode ver esta mensagem. UwU"
+                        f"Only <b>{r_name}</b> can't see this message. UwU"
                     )
-                    i_l_des = f"Mensagem Oculta de {r_name}"
-                    title = "😈 Troll"
+                    i_l_des = f"Hidden Message from {r_name}"
+                    title = "Troll"
                     thumb_img = "https://i.imgur.com/0vg5B0A.png"
-                buttons = [[InlineKeyboardButton("🔐  Mostrar", callback_data=c_data)]]
+                buttons = [[InlineKeyboardButton("Show", callback_data=c_data)]]
                 results.append(
                     InlineQueryResultArticle(
                         title=title,
@@ -1137,11 +1140,11 @@ if kannax.has_bot:
                                 ],
                                 [
                                     InlineKeyboardButton(
-                                        text="📜  List all",
+                                        text="List all",
                                         callback_data=f"ytdl_listall_{key_}_1",
                                     ),
                                     InlineKeyboardButton(
-                                        text="⬇️  Download",
+                                        text="Download",
                                         callback_data=f'ytdl_download_{outdata[1]["video_id"]}_0',
                                     ),
                                 ],
