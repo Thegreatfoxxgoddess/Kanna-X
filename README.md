@@ -29,4 +29,4 @@
 ## String Session
 
 #### By REPL (Easiest method)
-- [Gerar String no REPL](https://replit.com/@thegreatfoxxgoddess/StringSessionKX)
+- [Gerar String no REPL](https://replit.com/@aliciafoxx/StringSessionKX)
