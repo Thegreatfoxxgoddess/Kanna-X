@@ -13,49 +13,28 @@
 <a href="https://github.com/fnixdev/Kanna-X/network"><img alt="GitHub forks" src="https://img.shields.io/github/forks/fnixdev/Kanna-X?style=flat-square"></a>
 </p>
 
-## Disclaimer
-```
-/**
-   ⚠️Kang por sua própria conta e risco⚠️
-    Sua conta do Telegram pode ser banida.
-    Eu não sou responsável por qualquer uso indevido deste bot.
-    Você acabou enviando spam para grupos, sendo denunciado
-    e no final a Equipe do Telegram
-    excluiu sua conta?
-    Estarei rolando no chão rindo de você.
-    Sim! você ouviu direito.
-/**
-```
 ## Requisitos 
 * Python 3.8 ou Superior
 * Telegram [API Keys](https://my.telegram.org/apps)
 * Google Drive [API Keys](https://console.developers.google.com/)
 * MongoDB [Database URL](https://cloud.mongodb.com/)
 
-## Como Instalar
+## How to install
 
-- Antes de tudo leia o [TUTORIAL](https://fnixdev.github.io/Kanna/)
+- First of all read the [TUTORIAL](https://fnixdev.github.io/Kanna/)
 
 ### Heroku
-[​![Deploy](https://www.herokucdn.com/deploy/button.svg)​](https://heroku.com/deploy?template=https://github.com/fnixdev/KannaX-Deploy)
+[​![Deploy](https://www.herokucdn.com/deploy/button.svg)​](https://heroku.com/deploy?template=https://github.com/fnixdev/KannaInstall)
 
 ### Railway
 
-* Sua conta GitHub deve ter 30 dias ou mais para implantar aplicativos no Railway.
-* Após o deploy, toda vez que você precisa adicionar novas vars, **VOCÊ DEVE EXCLUIR SEU DEPLOY ANTIGO PRIMEIRO**. Ou então, sua Sessin String do Telegram será revogada devido à duplicação causada pelas implantações paralelas temporárias de Railway e você precisa regenerar a sequência de sessão.​
+* Your GitHub account must be 30 days or older to deploy applications to Railway.
+* After deploy every time you need to add new vars, **YOU MUST DELETE YOUR OLD DEPLOY FIRST**. Otherwise, your Telegram Sessin String will be revoked due to duplication caused by the temporary parallel deployments of Railway and you need to regenerate the session string.
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https%3A%2F%2Fgithub.com%2Fthegreatfoxxgoddess%2FRDeploy&envs=API_ID%2CAPI_HASH%2CDATABASE_URL%2CHU_STRING_SESSION%2CBOT_TOKEN%2COWNER_ID%2CLOG_CHANNEL_ID%2CCMD_TRIGGER&API_IDDesc=Telegram+api_id&API_HASHDesc=Telegram+api_hash&DATABASE_URLDesc=Get+it+from+cloud.mongodb.com&HU_STRING_SESSIONDesc=Telegram+string+session&BOT_TOKENDesc=Telegram+bot+token%2C+get+it+with+the+help+of+%40BotFather&OWNER_IDDesc=Your+user+ID&LOG_CHANNEL_IDDesc=Channel+for+userbot+to+log&CMD_TRIGGERDesc=Command+trigger+to+execute+userbot+command&CMD_TRIGGERDefault=.)
 
 
 ## String Session
 
-#### Pelo REPL (Metodo mais facil)
-- [Gerar String no REPL](https://replit.com/@fnixdev/StringSessionKX)
-
-### Créditos pelo Projeto
-* [USERGE-X](https://github.com/code-rgb/USERGE-X)
-* [UX-jutsu](https://github.com/ashwinstr/UX-jutsu)
-* [AppleBot](https://github.com/applled/AppleBot)
-
-### Direitos e Licensa
-[**GNU General Public License v3.0**](https://github.com/fnixdev/Kanna-X/blob/master/LICENSE)
+#### By REPL (Easiest method)
+- [Gerar String no REPL](https://replit.com/@thegreatfoxxgoddess/StringSessionKX)
